@@ -1,0 +1,49 @@
+---
+import '../styles/main.css'
+import Button from '../components/atoms/Button/Button'
+---
+
+<div class="screen">
+	<form class="login-form">
+		<label for="username">Username</label>
+		<input id="username" name="username" />
+
+		<label for="firstname">Name</label>
+		<input id="firstname" name="first_name" />
+
+		<label for="lastname">Lastname</label>
+		<input id="lastname" name="last_name" />
+
+		<label for="password">Password</label>
+		<input id="password" name="password" />
+
+		<label for="passwordconfirm">Repeat password</label>
+		<input id="passwordconfirm" name="password_confirm" />
+
+		<Button type="submit">Register</Button>
+	</form>
+</div>
+
+<style>
+	.screen {
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+	}
+
+	.login-form {
+		display: flex;
+		flex-direction: column;
+		padding: 15px;
+		border: 2px lightgray solid;
+		border-radius: 20px;
+	}
+
+	input {
+		padding: 5px;
+		margin-bottom: 15px;
+		border: 2px lightgray solid;
+		border-radius: 10px;
+	}
+</style>

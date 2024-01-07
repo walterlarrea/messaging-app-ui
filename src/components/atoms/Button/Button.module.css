@@ -1,0 +1,43 @@
+button {
+	/* resets */
+	font: inherit;
+	cursor: pointer;
+
+	/* default styles */
+	display: flex;
+	gap: 0.2em;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	padding: 0.4em 1.25em;
+	margin: 0;
+	transition:
+		box-shadow 0.2s cubic-bezier(0.075, 0.82, 0.165, 1),
+		opacity 0.2s cubic-bezier(0.075, 0.82, 0.165, 1),
+		scale 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+button:focus {
+	outline-color: transparent;
+}
+
+button:hover {
+	opacity: 0.8;
+	scale: 1.05;
+}
+
+button:focus-visible {
+	box-shadow:
+		0 0 0 0.1em inherit,
+		0 0 0 0.3em inherit;
+}
+
+[data-size='sm'] {
+	font-size: 0.8rem;
+}
+[data-size='md'] {
+	font-size: 1.1rem;
+}
+[data-size='lg'] {
+	font-size: 1.5rem;
+}
