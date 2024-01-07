@@ -8,10 +8,10 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"lint": "eslint ./src/**/*.{js,jsx,astro}",
+		"lint": "eslint ./src/**/*.{js,jsx,ts,tsx,astro}",
 		"prepare": "husky install",
-		"format:check": "prettier --check ./src/**/*.{js,jsx,astro} --plugin=prettier-plugin-astro",
-		"format:write": "prettier --write ./src/**/*.{js,jsx,astro} --plugin=prettier-plugin-astro"
+		"format:check": "prettier --check ./src/**/*.{js,jsx,ts,tsx,astro} --plugin=prettier-plugin-astro",
+		"format:write": "prettier --write ./src/**/*.{js,jsx,ts,tsx,astro} --plugin=prettier-plugin-astro"
 	},
 	"dependencies": {
 		"@astrojs/react": "^3.0.9",
@@ -19,10 +19,14 @@
 		"@types/react": "^18.2.45",
 		"@types/react-dom": "^18.2.18",
 		"astro": "^4.0.8",
+		"axios": "^1.6.5",
+		"classnames": "^2.5.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
 	},
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^6.18.0",
+		"@typescript-eslint/parser": "^6.18.0",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-astro": "^0.31.0",
