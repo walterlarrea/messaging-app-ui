@@ -1,7 +1,9 @@
 ---
-// interface Props {
-// 	title: string
-// }
+import HeaderSection from '../components/organisms/HeaderSection/HeaderSection.tsx'
+import AsideSection from '../components/organisms/AsideSection/AsideSection.tsx'
+interface Props {
+	title: string
+}
 
 const { title } = Astro.props
 ---
@@ -17,36 +19,23 @@ const { title } = Astro.props
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<div class="app-container">
+			<HeaderSection />
+			<div>CHAT HEADING</div>
+			<AsideSection client:load />
+			<slot />
+			<!-- main -->
+		</div>
 	</body>
 </html>
 
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	.html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	.code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
+<style>
+	.app-container {
+		display: grid;
+		gap: 10px;
+		grid-template-columns: 1fr 5fr;
+		grid-template-rows: 4rem auto;
+		height: 100vh;
+		padding: 10px;
 	}
 </style>

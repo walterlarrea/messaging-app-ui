@@ -1,9 +1,76 @@
 ---
-import Layout from '../layouts/Layout.astro'
+import '../styles/main.css'
+import Button from '../components/atoms/Button/Button'
+import Login from '../components/organisms/Login/Login'
 ---
 
-<Layout title="Welcome to MessagingApp">
-	<main>
-		<h1>MessagingApp</h1>
-	</main>
-</Layout>
+<div class="screen">
+	<Login client:only />
+	<form class="register-form" id="register-form">
+		<label for="email">E-mail</label>
+		<input id="email" name="email" type="email" />
+
+		<label for="username">Username</label>
+		<input id="username" name="username" />
+
+		<label for="firstname">Name</label>
+		<input id="firstname" name="first_name" />
+
+		<label for="lastname">Last name</label>
+		<input id="lastname" name="last_name" />
+
+		<label for="password">Password</label>
+		<input id="password" name="password" />
+
+		<label for="passwordconfirm">Repeat password</label>
+		<input id="passwordconfirm" name="password_confirm" />
+
+		<Button type="submit">Register</Button>
+	</form>
+</div>
+
+<script>
+	import type { AxiosResponse, AxiosResponseTransformer } from 'axios'
+	import axios from '../utils/axios'
+
+	const loginForm = document.getElementById('register-form') as HTMLFormElement
+
+	loginForm.addEventListener('submit', async (e: SubmitEvent) => {
+		e.preventDefault()
+		const dataList = new FormData(e.target as HTMLFormElement).entries()
+		let dataObject = {}
+
+		for (const input of dataList) {
+			dataObject[input[0]] = input[1]
+		}
+
+		const response = (await axios
+			.post('/api/user', dataObject)
+			.catch((error) => {
+				console.log('API ERROR MSG', error.response.data)
+			})) as AxiosResponse
+
+		if (response.status >= 200 && response.status < 300) {
+			console.log('REGISTERED', response.status, JSON.stringify(response.data))
+
+			//window.location.href = '/'
+		}
+	})
+</script>
+
+<style>
+	.screen {
+		display: grid;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+	}
+
+	.register-form {
+		display: flex;
+		flex-direction: column;
+		padding: 15px;
+		border: 2px lightgray solid;
+		border-radius: 20px;
+	}
+</style>

@@ -8,15 +8,23 @@ module.exports = {
 			env: {
 				node: true,
 			},
-			files: ['.eslintrc.{js,cjs}', '.astro'],
-			parser: 'astro-eslint-parser',
+			files: ['.eslintrc.{js,jsx,ts,tsx,cjs}', '.astro'],
+			//parser: 'astro-eslint-parser',
 			parserOptions: {
 				sourceType: 'script',
 				extraFileExtensions: ['.astro'],
 			},
 		},
 	],
-	extends: ['eslint:recommended', 'prettier', 'plugin:astro/recommended'],
+	parser: '@typescript-eslint/parser',
+	plugins: ['@typescript-eslint'],
+	extends: [
+		'eslint:recommended',
+		'prettier',
+		'plugin:astro/recommended',
+		'plugin:@typescript-eslint/eslint-recommended',
+		'plugin:@typescript-eslint/recommended',
+	],
 	parserOptions: {
 		ecmaVersion: 'latest',
 		sourceType: 'module',
