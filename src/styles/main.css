@@ -33,3 +33,9 @@ body {
 		'Helvetica Neue',
 		sans-serif;
 }
+
+input {
+	padding: 5px;
+	border: 2px lightgray solid;
+	border-radius: 10px;
+}

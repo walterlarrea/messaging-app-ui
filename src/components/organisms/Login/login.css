@@ -1,0 +1,8 @@
+.login-form {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 15px;
+	border: 2px lightgray solid;
+	border-radius: 20px;
+}
