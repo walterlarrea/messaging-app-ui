@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import { variants } from '../../../config/style'
 import './Button.module.css'
 import classNames from 'classnames'
 
@@ -42,14 +43,3 @@ const Button = ({
 }
 
 export default Button
-
-const variants = {
-	primary: 'text-[--light] bg-[--primary]',
-	secondary: 'text-[--light] bg-[--primary]',
-	success: 'text-[--light] bg-[--success]',
-	danger: 'text-[--light] bg-[--danger]',
-	warning: 'text-[--light] bg-[--warning]',
-	info: 'text-[--light] bg-[--info]',
-	light: 'text-[--dark] bg-[--light]',
-	dark: 'text-[--light] bg-[--dark]',
-}

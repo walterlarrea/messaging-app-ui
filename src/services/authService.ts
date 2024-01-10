@@ -1,8 +1,7 @@
-import type { AxiosError, AxiosResponse } from 'axios'
+import type { AxiosResponse } from 'axios'
 import type { IAuth, TLoginCredentials } from '../types/auth'
 import type { TUserRegister } from '../types/users'
-import type { TApiErrors } from '../types/error'
-import axios from '../utils/axios'
+import axios, { manageApiErrors } from '../utils/axios'
 
 export async function registerNewUser(newUser: TUserRegister) {
 	return await axios
@@ -10,10 +9,7 @@ export async function registerNewUser(newUser: TUserRegister) {
 		.then((response: AxiosResponse) => {
 			return response.data
 		})
-		.catch((error: AxiosError) => {
-			const apiErrors = error.response?.data as TApiErrors
-			return Promise.reject(apiErrors)
-		})
+		.catch(manageApiErrors)
 }
 
 export async function loginUser(
@@ -27,8 +23,5 @@ export async function loginUser(
 		.then((response: AxiosResponse) => {
 			return response.data as IAuth
 		})
-		.catch((error: AxiosError) => {
-			const apiErrors = error.response?.data as TApiErrors
-			return Promise.reject(apiErrors)
-		})
+		.catch(manageApiErrors)
 }

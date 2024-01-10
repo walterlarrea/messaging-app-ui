@@ -1,33 +1,60 @@
 ---
 import '../styles/main.css'
+import Layout from '../layouts/Layout.astro'
 import Button from '../components/atoms/Button/Button'
 import Login from '../components/organisms/Login/Login'
+import Input from '../components/atoms/Input/Input'
 ---
 
-<div class="screen">
-	<Login client:only />
-	<form class="register-form" id="register-form">
-		<label for="email">E-mail</label>
-		<input id="email" name="email" type="email" />
+<Layout title="MessagingApp">
+	<div class="grid_container gap-[10px] sm:gap-0 h-fit sm:h-full sm:p-[16px]">
+		<section class="justify-self-end">
+			<Login classes="max-w-fit" client:only />
+		</section>
+		<section class="flex items-center justify-center">
+			<form
+				class="flex flex-col w-full sm:max-w-md p-[15px] border-2 border-gray-300 rounded-[20px]"
+				id="register-form"
+			>
+				<Input classes="ms-4 mb-4" id="email" name="email" type="email">
+					E-mail
+				</Input>
 
-		<label for="username">Username</label>
-		<input id="username" name="username" />
+				<Input classes="ms-4 mb-4" id="username" name="username" type="text">
+					Username
+				</Input>
 
-		<label for="firstname">Name</label>
-		<input id="firstname" name="first_name" />
+				<Input classes="ms-4 mb-4" id="firstname" name="first_name" type="text">
+					Name
+				</Input>
 
-		<label for="lastname">Last name</label>
-		<input id="lastname" name="last_name" />
+				<Input classes="ms-4 mb-4" id="lastname" name="last_name" type="text">
+					Last name
+				</Input>
 
-		<label for="password">Password</label>
-		<input id="password" name="password" type="password" />
+				<Input
+					classes="ms-4 mb-4"
+					id="password"
+					name="password"
+					type="password"
+				>
+					Password
+				</Input>
 
-		<label for="passwordconfirm">Repeat password</label>
-		<input id="passwordconfirm" name="password_confirm" type="password" />
+				<Input
+					classes="ms-4 mb-4"
+					id="passwordconfirm"
+					name="password_confirm"
+					type="password"
+				>
+					Repeat password
+				</Input>
 
-		<Button type="submit">Register</Button>
-	</form>
-</div>
+				<Button classes="w-32 self-end" type="submit">Sign up</Button>
+			</form>
+		</section>
+	</div>
+</Layout>
 
 <script>
 	import { registerNewUser } from '../services/authService'
@@ -61,18 +88,9 @@ import Login from '../components/organisms/Login/Login'
 </script>
 
 <style>
-	.screen {
+	.grid_container {
 		display: grid;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-	}
-
-	.register-form {
-		display: flex;
-		flex-direction: column;
-		padding: 15px;
-		border: 2px lightgray solid;
-		border-radius: 20px;
+		grid-template-columns: 1fr;
+		grid-template-rows: min-content auto;
 	}
 </style>
