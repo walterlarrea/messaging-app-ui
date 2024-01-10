@@ -1,5 +1,6 @@
-import axios, { type AxiosInstance } from 'axios'
+import axios, { type AxiosError, type AxiosInstance } from 'axios'
 import { API_URI } from '../config/constants'
+import type { TApiErrors } from '../types/error'
 
 const BASE_URL = API_URI
 
@@ -12,3 +13,8 @@ export const axiosPrivate = axios.create({
 	headers: { 'Content-Type': 'application/json' },
 	withCredentials: true,
 }) as AxiosInstance
+
+export const manageApiErrors = (error: AxiosError) => {
+	const apiErrors = error.response?.data as TApiErrors
+	return Promise.reject(apiErrors)
+}

@@ -1,6 +1,6 @@
-import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
+import type { AxiosInstance, AxiosResponse } from 'axios'
 import type { TChannelCreate } from '../types/channel.ts'
-import type { TApiErrors } from '../types/error'
+import { manageApiErrors } from '../utils/axios.ts'
 
 export const createNewChannel =
 	(fetchFunction: AxiosInstance) => async (newChannel: TChannelCreate) => {
@@ -9,8 +9,5 @@ export const createNewChannel =
 			.then((response: AxiosResponse) => {
 				return response.data
 			})
-			.catch((error: AxiosError) => {
-				const apiErrors = error.response?.data as TApiErrors
-				return Promise.reject(apiErrors)
-			})
+			.catch(manageApiErrors)
 	}

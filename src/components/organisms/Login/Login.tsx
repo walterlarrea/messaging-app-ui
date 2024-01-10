@@ -1,9 +1,13 @@
 import useAuth from '../../../hooks/useAuth'
 import Button from '../../atoms/Button/Button'
-import './login.css'
+import Input from '../../atoms/Input/Input.tsx'
 import { loginUser } from '../../../services/authService.ts'
 
-const Login = () => {
+interface LoginProps {
+	classes?: string
+}
+
+const Login = ({ classes }: LoginProps) => {
 	const { setAuth } = useAuth()
 
 	const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,6 +27,7 @@ const Login = () => {
 				const email = userEmail
 
 				setAuth({ email, role, accessToken })
+				window.location.href = '/messages'
 			})
 			.catch((reasons) =>
 				reasons?.errors?.[0]
@@ -33,15 +38,20 @@ const Login = () => {
 
 	return (
 		<>
-			<form className="login-form" onSubmit={handleLogin}>
-				<label htmlFor="login-email">E-mail</label>
-				<input id="login-email" name="email" type="email" />
+			<form
+				className={`flex flex-wrap items-end gap-[10px] p-[15px] border-2 border-gray-300 rounded-[20px] ${classes}`}
+				onSubmit={handleLogin}
+			>
+				<Input id="login-email" name="email" type="email">
+					E-mail
+				</Input>
 
-				<label htmlFor="login-password">Password</label>
-				<input id="login-password" name="password" type="password" />
+				<Input id="login-password" name="password" type="password">
+					Password
+				</Input>
 
-				<Button type="submit" variant="primary">
-					Login
+				<Button classes="ms-auto" type="submit">
+					Sign in
 				</Button>
 			</form>
 		</>

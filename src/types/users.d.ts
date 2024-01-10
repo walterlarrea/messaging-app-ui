@@ -6,3 +6,9 @@ export type TUserRegister = {
 	password: string
 	password_confirm: string
 }
+
+export type TUserFriend = {
+	id: number
+	firstName: string
+	username: string
+}

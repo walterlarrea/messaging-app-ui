@@ -1,9 +1,10 @@
 ---
 import '../styles/main.css'
-import Layout from '../layouts/Layout.astro'
-import MainSection from '../components/organisms/MainSection/MainSection'
+import MessagesSection from '../components/organisms/MessagesSection/MessagesSection'
+import LayoutMessages from '../layouts/LayoutMessages.astro'
 ---
 
-<Layout title="MessagingApp">
-	<MainSection client:only />
-</Layout>
+<LayoutMessages title="MessagingApp">
+	<MessagesSection client:only />
+</LayoutMessages>
+../components/organisms/MainSection/MessagesSection

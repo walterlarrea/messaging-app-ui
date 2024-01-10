@@ -9,8 +9,10 @@ button {
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
+
 	padding: 0.4em 1.25em;
 	margin: 0;
+
 	transition:
 		box-shadow 0.2s cubic-bezier(0.075, 0.82, 0.165, 1),
 		opacity 0.2s cubic-bezier(0.075, 0.82, 0.165, 1),

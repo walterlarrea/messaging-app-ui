@@ -1,9 +1,9 @@
 import type React from 'react'
-import Button from '../../atoms/Button/Button'
+import Button from '../../atoms/Button/Button.tsx'
 import { createNewChannel } from '../../../services/channelService.ts'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
 
-const MainSection = () => {
+const MessagesSection = () => {
 	const createChannel = useAxiosPrivate(createNewChannel)
 
 	const handleNewChannel = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,4 +49,4 @@ const MainSection = () => {
 	)
 }
 
-export default MainSection
+export default MessagesSection
