@@ -1,10 +1,18 @@
+export type TLoginCredentials = {
+	email: string
+	password: string
+}
+
 export interface IAuth {
-	email?: string
-	role?: string
-	accessToken?: string
+	accessToken: string
+	role: string
+}
+
+export interface IAuthLocal extends IAuth {
+	email: string
 }
 
 // export type AuthStoreType = {
-// 	$auth: IAuth
-// 	setAuth: (auth: IAuth) => void
+// 	$auth: IAuthLocal
+// 	setAuth: (auth: IAuthLocal) => void
 // }
