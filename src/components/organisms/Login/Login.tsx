@@ -1,8 +1,7 @@
-import axios from '../../../utils/axios'
 import useAuth from '../../../hooks/useAuth'
 import Button from '../../atoms/Button/Button'
 import './login.css'
-import type { AxiosResponse } from 'axios'
+import { loginUser } from '../../../services/authService.ts'
 
 const Login = () => {
 	const { setAuth } = useAuth()
@@ -14,30 +13,22 @@ const Login = () => {
 		const userEmail = dataList.get('email') as string
 		const userPwd = dataList.get('password') as string
 
-		const response = (await axios
-			.post(
-				'/api/login',
-				{ email: userEmail, password: userPwd },
-				{
-					headers: { 'Content-Type': 'application/json' },
-					withCredentials: true,
-				}
+		loginUser({
+			email: userEmail,
+			password: userPwd,
+		})
+			.then((result) => {
+				const accessToken = result.accessToken
+				const role = result.role
+				const email = userEmail
+
+				setAuth({ email, role, accessToken })
+			})
+			.catch((reasons) =>
+				reasons?.errors?.[0]
+					? alert(reasons?.errors?.[0].msg)
+					: alert('An unknown error occur')
 			)
-			.catch((error) => {
-				console.log('API ERROR MSG', error.response.data)
-			})) as AxiosResponse
-
-		if (response.status >= 200 && response.status < 300) {
-			console.log('LOGGED', response.status, JSON.stringify(response.data))
-
-			const accessToken = response?.data?.accessToken
-			const role = response?.data?.role
-			const email = userEmail
-
-			setAuth({ email, role, accessToken })
-
-			window.location.href = '/messages'
-		}
 	}
 
 	return (

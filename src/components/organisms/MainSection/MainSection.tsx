@@ -1,12 +1,10 @@
 import type React from 'react'
-import useAuth from '../../../hooks/useAuth'
 import Button from '../../atoms/Button/Button'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
-import type { AxiosResponse } from 'axios'
+import { createNewChannel } from '../../../services/channelService.ts'
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
 
 const MainSection = () => {
-	const { auth } = useAuth()
-	const axiosPrivate = useAxiosPrivate()
+	const createChannel = useAxiosPrivate(createNewChannel)
 
 	const handleNewChannel = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -15,18 +13,18 @@ const MainSection = () => {
 		const title = dataList.get('title') as string
 		const description = dataList.get('description') as string
 
-		const response = (await axiosPrivate
-			.post('/api/channel', {
-				title,
-				description,
+		createChannel({
+			title,
+			description,
+		})
+			.then((result) => {
+				console.log('Channel created = ', result)
 			})
-			.catch((error) => {
-				console.log('API ERROR MSG', error.response.data)
-			})) as AxiosResponse
-
-		if (response.status >= 200 && response.status < 300) {
-			console.log('CHN CREATED', response.status, JSON.stringify(response.data))
-		}
+			.catch((reasons) =>
+				reasons?.errors?.[0]
+					? alert(reasons?.errors?.[0].msg)
+					: alert('An unknown error occur')
+			)
 	}
 
 	return (
@@ -35,7 +33,7 @@ const MainSection = () => {
 
 			<Button>Test button</Button>
 
-			<h2>New channel! {auth.email}</h2>
+			<h2>New channel!</h2>
 			<form onSubmit={handleNewChannel}>
 				<label htmlFor="title">Title</label>
 				<input id="title" name="title" />

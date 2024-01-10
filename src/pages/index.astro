@@ -20,41 +20,43 @@ import Login from '../components/organisms/Login/Login'
 		<input id="lastname" name="last_name" />
 
 		<label for="password">Password</label>
-		<input id="password" name="password" />
+		<input id="password" name="password" type="password" />
 
 		<label for="passwordconfirm">Repeat password</label>
-		<input id="passwordconfirm" name="password_confirm" />
+		<input id="passwordconfirm" name="password_confirm" type="password" />
 
 		<Button type="submit">Register</Button>
 	</form>
 </div>
 
 <script>
-	import type { AxiosResponse, AxiosResponseTransformer } from 'axios'
-	import axios from '../utils/axios'
+	import { registerNewUser } from '../services/authService'
+	import type { TUserRegister } from '../types/users'
 
 	const loginForm = document.getElementById('register-form') as HTMLFormElement
 
 	loginForm.addEventListener('submit', async (e: SubmitEvent) => {
 		e.preventDefault()
-		const dataList = new FormData(e.target as HTMLFormElement).entries()
-		let dataObject = {}
 
-		for (const input of dataList) {
-			dataObject[input[0]] = input[1]
+		const dataList = new FormData(e.target as HTMLFormElement) as FormData
+		const dataObject: TUserRegister = {
+			email: dataList.get('email') as string,
+			username: dataList.get('username') as string,
+			first_name: dataList.get('first_name') as string,
+			last_name: dataList.get('last_name') as string,
+			password: dataList.get('password') as string,
+			password_confirm: dataList.get('password_confirm') as string,
 		}
 
-		const response = (await axios
-			.post('/api/user', dataObject)
-			.catch((error) => {
-				console.log('API ERROR MSG', error.response.data)
-			})) as AxiosResponse
-
-		if (response.status >= 200 && response.status < 300) {
-			console.log('REGISTERED', response.status, JSON.stringify(response.data))
-
-			//window.location.href = '/'
-		}
+		registerNewUser(dataObject)
+			.then((result) => {
+				console.log('User registered = ', result)
+			})
+			.catch((reasons) =>
+				reasons?.errors?.[0]
+					? alert(reasons?.errors?.[0].msg)
+					: alert('An unknown error occur')
+			)
 	})
 </script>
 
