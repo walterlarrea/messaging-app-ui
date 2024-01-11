@@ -8,10 +8,10 @@ module.exports = {
 			env: {
 				node: true,
 			},
-			files: ['.eslintrc.{js,jsx,ts,tsx,cjs}', '.astro'],
+			files: ['.eslintrc.{js,jsx,ts,tsx,cjs}'], //, '.astro'],
 			//parser: 'astro-eslint-parser',
 			parserOptions: {
-				sourceType: 'script',
+				parser: '@typescript-eslint/parser',
 				extraFileExtensions: ['.astro'],
 			},
 		},
