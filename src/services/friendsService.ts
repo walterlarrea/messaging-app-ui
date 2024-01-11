@@ -6,7 +6,7 @@ export const requestFriend =
 	(fetchFunction: AxiosInstance) => async (targetUsername: string) => {
 		return await fetchFunction
 			.post('/api/friends/request', {
-				target_user_email: targetUsername,
+				target_username: targetUsername,
 			})
 			.then((response: AxiosResponse) => {
 				return response.data
