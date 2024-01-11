@@ -2,6 +2,7 @@ import useAuth from '../../../hooks/useAuth'
 import Button from '../../atoms/Button/Button'
 import Input from '../../atoms/Input/Input.tsx'
 import { loginUser } from '../../../services/authService.ts'
+import type { FormEvent } from 'react'
 
 interface LoginProps {
 	classes?: string
@@ -10,7 +11,7 @@ interface LoginProps {
 const Login = ({ classes }: LoginProps) => {
 	const { setAuth } = useAuth()
 
-	const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		const dataList = new FormData(e.target as HTMLFormElement) as FormData
