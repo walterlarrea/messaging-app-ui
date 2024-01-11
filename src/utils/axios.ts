@@ -16,5 +16,5 @@ export const axiosPrivate = axios.create({
 
 export const manageApiErrors = (error: AxiosError) => {
 	const apiErrors = error.response?.data as TApiErrors
-	return Promise.reject(apiErrors)
+	return Promise.reject(apiErrors ?? error.message)
 }
