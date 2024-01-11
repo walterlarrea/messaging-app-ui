@@ -1,5 +1,5 @@
 const HeaderSection = () => {
-	return <header>APP HEADER</header>
+	return <header>Full Blown Messaging</header>
 }
 
 export default HeaderSection

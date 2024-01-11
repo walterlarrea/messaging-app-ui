@@ -1,4 +1,5 @@
 ---
+import Layout from './Layout.astro'
 import HeaderSection from '../components/organisms/HeaderSection/HeaderSection.tsx'
 import AsideSection from '../components/organisms/AsideSection/AsideSection.tsx'
 interface Props {
@@ -8,37 +9,22 @@ interface Props {
 const { title } = Astro.props
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="description"
-			content="Full blown messaging app with direct messages and channels subscription"
-		/>
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<div class="app-container">
-			<HeaderSection />
-			<div>Full Blown Messaging</div>
-			<AsideSection client:load />
-			<slot />
-			<!-- main -->
-		</div>
-	</body>
-</html>
+<Layout title={title}>
+	<div class="app-container">
+		<HeaderSection />
+		<div>Foto contacto</div>
+		<AsideSection client:load />
+		<slot />
+	</div>
+</Layout>
 
 <style>
 	.app-container {
 		display: grid;
 		gap: 10px;
-		grid-template-columns: 1fr 5fr;
+		grid-template-columns: 1fr 3fr;
 		grid-template-rows: 4rem auto;
-		height: 100vh;
-		padding: 10px;
+		height: 100%;
+		width: 100%;
 	}
 </style>

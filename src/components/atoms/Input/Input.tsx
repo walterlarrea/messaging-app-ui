@@ -1,5 +1,8 @@
 import type { InputHTMLAttributes, ReactNode } from 'react'
-import { variants } from '../../../config/style'
+import {
+	actionColorVariants,
+	specialColorVariants,
+} from '../../../config/style'
 import './Input.module.css'
 import classNames from 'classnames'
 
@@ -26,15 +29,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 		| 'time'
 		| 'url'
 		| 'week'
-	variant?:
-		| 'primary'
-		| 'secondary'
-		| 'success'
-		| 'danger'
-		| 'warning'
-		| 'info'
-		| 'light'
-		| 'dark'
+	disabled?: boolean
 	classes?: string
 	children: ReactNode
 }
@@ -44,12 +39,16 @@ const Input = ({
 	name,
 	boxSize = 'md',
 	type,
-	variant = 'light',
+	disabled = false,
 	classes,
 	children,
 	...rest
 }: InputProps) => {
-	const classnames: string = classNames(classes, variants[variant])
+	const classnames: string = classNames(
+		classes,
+		disabled ? specialColorVariants.muted : actionColorVariants.secondary,
+		disabled || 'hover:border-gray-400'
+	)
 
 	return (
 		<div className="flex flex-col flex-nowrap grow">
@@ -59,6 +58,7 @@ const Input = ({
 				id={id}
 				name={name}
 				type={type}
+				disabled={disabled}
 				data-size={boxSize}
 				{...rest}
 			/>

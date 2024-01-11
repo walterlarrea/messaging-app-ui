@@ -18,8 +18,8 @@ const AddFriendForm = ({ classes }: LoginProps) => {
 		const targetUser = formData.get('username')
 
 		addFriend(targetUser)
-			.then((result) => {
-				console.log('result', result)
+			.then(() => {
+				alert('Success')
 			})
 			.catch((error: TApiErrors) => {
 				error?.errors?.[0]
@@ -30,6 +30,7 @@ const AddFriendForm = ({ classes }: LoginProps) => {
 
 	return (
 		<>
+			<h3>Send friends request</h3>
 			<form
 				className={`flex flex-wrap items-end gap-[10px] p-[15px] border-2 border-gray-300 rounded-[20px] ${classes}`}
 				onSubmit={handleAddFriend}

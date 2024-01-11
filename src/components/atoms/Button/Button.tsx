@@ -1,5 +1,8 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { variants } from '../../../config/style'
+import {
+	actionColorVariants,
+	specialColorVariants,
+} from '../../../config/style'
 import './Button.module.css'
 import classNames from 'classnames'
 
@@ -7,15 +10,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	type?: 'button' | 'submit'
 	size?: 'sm' | 'md' | 'lg'
 	//outline?: boolean
-	variant?:
-		| 'primary'
-		| 'secondary'
-		| 'success'
-		| 'danger'
-		| 'warning'
-		| 'info'
-		| 'light'
-		| 'dark'
+	variant?: 'primary' | 'secondary' | 'danger'
+	disabled?: boolean
 	classes?: string
 	children: ReactNode
 }
@@ -25,6 +21,7 @@ const Button = ({
 	size = 'md',
 	//outline,
 	variant = 'primary',
+	disabled = false,
 	classes,
 	children,
 	...rest
@@ -32,11 +29,18 @@ const Button = ({
 	const classnames: string = classNames(
 		classes,
 		//{ outline },
-		variants[variant]
+		disabled ? specialColorVariants.muted : actionColorVariants[variant],
+		disabled && 'cursor-default'
 	)
 
 	return (
-		<button className={classnames} type={type} data-size={size} {...rest}>
+		<button
+			className={classnames}
+			type={type}
+			disabled={disabled}
+			data-size={size}
+			{...rest}
+		>
 			{children}
 		</button>
 	)

@@ -1,14 +1,14 @@
-import type { TUserFriend } from '../../../types/users'
+import type { TUserPublic } from '../../../types/users'
 import UserItem from '../../molecules/UserListItem/UserListItem'
 
 interface UserListProps {
-	friends: TUserFriend[]
+	users: TUserPublic[]
 }
 
-const UserList = ({ friends }: UserListProps) => {
+const UserList = ({ users }: UserListProps) => {
 	return (
 		<ul>
-			{friends.map(({ id, username }) => (
+			{users.map(({ id, username }) => (
 				<UserItem key={id} userName={username} />
 			))}
 		</ul>

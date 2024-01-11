@@ -13,10 +13,6 @@ input:focus {
 	outline-color: transparent;
 }
 
-input:hover {
-	border-color: gray;
-}
-
 input:focus-visible {
 	box-shadow:
 		0 0 0 0.1em inherit,
