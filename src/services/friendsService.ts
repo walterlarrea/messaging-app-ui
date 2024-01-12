@@ -1,6 +1,6 @@
 import type { AxiosInstance, AxiosResponse } from 'axios'
 import { manageApiErrors } from '../utils/axios'
-import type { TUserFriend } from '../types/users'
+import type { TUserPublic } from '../types/users'
 
 export const requestFriend =
 	(fetchFunction: AxiosInstance) => async (targetUsername: string) => {
@@ -24,7 +24,7 @@ export const getFriendRequests = (fetchFunction: AxiosInstance) => async () => {
 }
 
 export const getFriends =
-	(fetchFunction: AxiosInstance) => async (): Promise<TUserFriend> => {
+	(fetchFunction: AxiosInstance) => async (): Promise<TUserPublic> => {
 		return await fetchFunction
 			.get('/api/friends')
 			.then((response: AxiosResponse) => {

@@ -24,6 +24,7 @@ module.exports = {
 		'plugin:astro/recommended',
 		'plugin:@typescript-eslint/eslint-recommended',
 		'plugin:@typescript-eslint/recommended',
+		'plugin:storybook/recommended',
 	],
 	parserOptions: {
 		ecmaVersion: 'latest',

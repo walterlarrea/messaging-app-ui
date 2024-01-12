@@ -3,18 +3,19 @@ import Button from '../../atoms/Button/Button'
 import UserList from '../UserList/UserList'
 import { getFriends } from '../../../services/friendsService'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
-import type { TUserFriend } from '../../../types/users'
+import type { TUserPublic } from '../../../types/users'
 import Dialog from '../../molecules/Dialog/Dialog'
 import AddFriendForm from '../AddFriendForm/AddFriendForm'
+import FriendRequestList from '../FriendRequestList/FriendRequestList'
 
 const AsideSection = () => {
-	const [friends, setFriends] = useState<TUserFriend[]>([])
+	const [friends, setFriends] = useState<TUserPublic[]>([])
 	const friendDialog = useRef<HTMLDialogElement>(null)
 	const getUserFriend = useAxiosPrivate(getFriends)
 
 	useEffect(() => {
 		getUserFriend()
-			.then((result: TUserFriend[]) => {
+			.then((result: TUserPublic[]) => {
 				setFriends(result)
 			})
 			.catch((reasons) => {
@@ -27,17 +28,24 @@ const AsideSection = () => {
 	const openFriendDialog = () => {
 		friendDialog.current?.showModal()
 	}
-
+	const closeFriendDialog = () => {
+		friendDialog.current?.close()
+	}
 	return (
 		<aside>
 			<div className="flex justify-between">
-				<h2>APP ASIDE</h2>
+				<span>Chats</span>
 				<Button onClick={openFriendDialog}>+</Button>
-				<Dialog title="Friend request" Ref={friendDialog}>
-					<AddFriendForm />
-				</Dialog>
 			</div>
-			<UserList friends={friends} />
+			<Dialog
+				title="Friends requests"
+				ref={friendDialog}
+				handleClose={closeFriendDialog}
+			>
+				<AddFriendForm />
+				<FriendRequestList />
+			</Dialog>
+			<UserList users={friends} />
 		</aside>
 	)
 }
