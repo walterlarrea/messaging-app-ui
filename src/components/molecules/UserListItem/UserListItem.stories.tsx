@@ -8,6 +8,6 @@ export default {
 
 type Story = StoryObj<typeof UserListItem>
 
-export const Default = {
+export const Default: Story = {
 	args: { userName: 'WalliFTW' },
 }
