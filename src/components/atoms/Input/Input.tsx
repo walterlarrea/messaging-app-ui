@@ -1,8 +1,5 @@
 import type { InputHTMLAttributes, ReactNode } from 'react'
-import {
-	actionColorVariants,
-	specialColorVariants,
-} from '../../../config/style'
+import { specialColorVariants } from '../../../config/style'
 import './Input.module.css'
 import classNames from 'classnames'
 
@@ -46,13 +43,19 @@ const Input = ({
 }: InputProps) => {
 	const classnames: string = classNames(
 		classes,
-		disabled ? specialColorVariants.muted : actionColorVariants.secondary,
-		disabled || 'hover:border-gray-400'
+		disabled
+			? specialColorVariants.muted
+			: 'bg-[--background] hover:opacity-80',
+		'border-[--border]',
+		'focus:ring-2',
+		'focus:ring-[--ring]'
 	)
 
 	return (
 		<div className="flex flex-col flex-nowrap grow">
-			<label htmlFor={id}>{children}</label>
+			<label className="text-[--secondary-foreground]" htmlFor={id}>
+				{children}
+			</label>
 			<input
 				className={classnames}
 				id={id}

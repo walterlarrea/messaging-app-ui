@@ -40,7 +40,7 @@ const Login = ({ classes }: LoginProps) => {
 	return (
 		<>
 			<form
-				className={`flex flex-wrap items-end gap-[10px] p-[15px] border-2 border-gray-300 rounded-[20px] ${classes}`}
+				className={`flex flex-wrap items-end gap-[10px] p-[15px] border-2 border-[--border] rounded-[20px] bg-[--background] ${classes}`}
 				onSubmit={handleLogin}
 			>
 				<Input id="login-email" name="email" type="email">

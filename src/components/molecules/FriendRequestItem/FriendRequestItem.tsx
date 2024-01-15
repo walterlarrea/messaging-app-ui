@@ -6,7 +6,7 @@ interface ItemProps {
 	userName: string
 }
 
-const UserListItem = ({ userName }: ItemProps) => {
+const FriendRequestItem = ({ userName }: ItemProps) => {
 	const classnames = classNames(
 		bgColorVariants.card,
 		'flex flex-nowrap gap-[8px] p-[5px] cursor-pointer hover:opacity-80 border rounded-lg'
@@ -23,4 +23,4 @@ const UserListItem = ({ userName }: ItemProps) => {
 	)
 }
 
-export default UserListItem
+export default FriendRequestItem

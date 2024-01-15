@@ -6,6 +6,7 @@ import {
 	type ReactNode,
 } from 'react'
 import Button from '../../atoms/Button/Button'
+import { bgColorVariants } from '../../../config/style'
 
 interface DialogProps extends DialogHTMLAttributes<HTMLDialogElement> {
 	title: string
@@ -17,6 +18,8 @@ interface DialogProps extends DialogHTMLAttributes<HTMLDialogElement> {
 const Dialog = forwardRef<HTMLDialogElement, DialogProps>(
 	({ title, classes, children, handleClose, ...rest }: DialogProps, ref) => {
 		const classnames = classNames(
+			bgColorVariants.card,
+			'border-[--border]',
 			'backdrop-blur',
 			'backdrop-opacity-50',
 			classes

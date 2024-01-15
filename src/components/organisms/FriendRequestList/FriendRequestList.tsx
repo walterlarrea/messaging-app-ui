@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { getFriendRequests } from '../../../services/friendsService'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
 import type { TUserPublic } from '../../../types/users'
-import UserListItem from '../../molecules/UserListItem/UserListItem'
+import FriendRequestItem from '../../molecules/FriendRequestItem/FriendRequestItem'
 
 const FriendRequestList = () => {
 	const [friendRequests, setFriendRequests] = useState<TUserPublic[]>([])
@@ -24,7 +24,7 @@ const FriendRequestList = () => {
 	return (
 		<ul>
 			{friendRequests.map(({ id, username }) => (
-				<UserListItem key={id} userName={username} />
+				<FriendRequestItem key={id} userName={username} />
 			))}
 		</ul>
 	)
