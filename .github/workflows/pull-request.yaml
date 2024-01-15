@@ -1,4 +1,4 @@
-name: Pull Request lint & test
+name: Pull Request lint
 run-name: New changes pushed by @${{ github.actor }}, starting new pipeline process 🚀
 on:
   pull_request:
