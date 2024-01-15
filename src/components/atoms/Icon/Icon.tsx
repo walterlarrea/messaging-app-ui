@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ElementType } from 'react'
 import {
 	actionColorVariants,
 	specialColorVariants,
@@ -13,17 +13,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: 'primary' | 'secondary' | 'danger'
 	disabled?: boolean
 	classes?: string
-	children: ReactNode
+	Icon: ElementType
 }
 
 const Button = ({
 	type = 'button',
 	size = 'md',
+	Icon,
 	//outline,
-	variant = 'primary',
+	variant = 'secondary',
 	disabled = false,
 	classes,
-	children,
 	...rest
 }: ButtonProps) => {
 	const classnames: string = classNames(
@@ -31,20 +31,17 @@ const Button = ({
 		//{ outline },
 		disabled ? specialColorVariants.muted : actionColorVariants[variant],
 		disabled && 'cursor-default',
-		'h-fit',
-		'text-nowrap'
+		'h-fit'
 	)
 
 	return (
-		<button
+		<Icon
 			className={classnames}
 			type={type}
 			disabled={disabled}
 			data-size={size}
 			{...rest}
-		>
-			{children}
-		</button>
+		/>
 	)
 }
 

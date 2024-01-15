@@ -4,13 +4,8 @@ input {
 	margin: 0;
 	border: 2px lightgray solid;
 	border-radius: 10px;
-	transition:
-		box-shadow 0.2s cubic-bezier(0.075, 0.82, 0.165, 1),
-		border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-input:focus {
-	outline-color: transparent;
+	transition: box-shadow 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+	/* border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1); */
 }
 
 input:focus-visible {

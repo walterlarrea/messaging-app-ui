@@ -32,7 +32,7 @@ const AsideSection = () => {
 		friendDialog.current?.close()
 	}
 	return (
-		<aside>
+		<aside className="rounded-lg p-2 bg-[--background]">
 			<div className="flex justify-between">
 				<span>Chats</span>
 				<Button onClick={openFriendDialog}>+</Button>

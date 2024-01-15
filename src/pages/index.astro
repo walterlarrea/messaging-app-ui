@@ -9,11 +9,12 @@ import Input from '../components/atoms/Input/Input'
 <Layout title="FB Messaging">
 	<div class="grid_container gap-[10px] sm:gap-0 h-fit sm:h-full sm:p-[16px]">
 		<section class="justify-self-end">
-			<Login classes="max-w-fit" client:only />
+			<Login classes="max-w-fit" client:only="react" />
 		</section>
+
 		<section class="flex items-center justify-center">
 			<form
-				class="flex flex-col w-full sm:max-w-md p-[15px] border-2 border-gray-300 rounded-[20px]"
+				class="flex flex-col w-full sm:max-w-md p-[15px] border-2 border-[--border] rounded-[20px] bg-[--background]"
 				id="register-form"
 			>
 				<Input classes="ms-4 mb-4" id="email" name="email" type="email">
