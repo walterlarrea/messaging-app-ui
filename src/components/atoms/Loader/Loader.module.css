@@ -1,0 +1,91 @@
+.backdrop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100svh;
+	width: 100svw;
+	background-color: transparent;
+	backdrop-filter: blur(2px);
+	transition: all ease 0.7s;
+}
+
+.loader {
+	position: absolute;
+	top: calc(50% - 5vh);
+	left: calc(50% - 5vh);
+	height: 10vh;
+	width: 10vh;
+}
+
+.loader .child {
+	position: absolute;
+	overflow: visible;
+	opacity: 0;
+}
+
+.loader .child svg {
+	font-size: 3vh;
+}
+
+.loader .child:nth-child(1) {
+	animation: 3s 0s infinite normal running slide;
+}
+
+.loader .child:nth-child(2) {
+	animation: 3s 1s infinite normal running slide;
+}
+
+.loader .child:nth-child(3) {
+	animation: 3s 2s infinite normal running slide;
+}
+
+.loader .child:nth-child(4) {
+	animation: 3s 3s infinite normal running slide;
+}
+
+@keyframes slide {
+	0% {
+		top: calc(100% - 3vh);
+		left: calc(100% - 3vh);
+		opacity: 0;
+	}
+	9% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	10% {
+		transform: scale(0.3);
+		top: calc(100% - 3vh);
+		left: calc(100% - 3vh);
+		opacity: 0.2;
+	}
+
+	25% {
+		opacity: 0.5;
+	}
+
+	35% {
+		transform: scale(2);
+		opacity: 1;
+	}
+
+	45% {
+		opacity: 0.5;
+	}
+
+	90% {
+		transform: scale(0.3);
+		top: 0;
+		left: 0;
+		opacity: 0.2;
+	}
+	91% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	100% {
+		top: 0;
+		left: 0;
+		opacity: 0;
+	}
+}

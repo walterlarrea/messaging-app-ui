@@ -4,9 +4,10 @@ import { getFriendRequests } from '../../../services/friendsService'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
 import type { TUserPublic } from '../../../types/users'
 import FriendRequestItem from '../../molecules/FriendRequestItem/FriendRequestItem'
+import Loader from '../../atoms/Loader/Loader'
 
 const FriendRequestList = () => {
-	const [friendRequests, setFriendRequests] = useState<TUserPublic[]>([])
+	const [friendRequests, setFriendRequests] = useState<TUserPublic[]>()
 	const getUserFriendRequests = useAxiosPrivate(getFriendRequests)
 
 	useEffect(() => {
@@ -20,6 +21,10 @@ const FriendRequestList = () => {
 					: alert('An unknown error occur')
 			})
 	}, [])
+
+	if (!friendRequests) {
+		return <Loader />
+	}
 
 	return (
 		<ul>

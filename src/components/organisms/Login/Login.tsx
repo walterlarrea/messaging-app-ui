@@ -2,17 +2,20 @@ import useAuth from '../../../hooks/useAuth'
 import Button from '../../atoms/Button/Button'
 import Input from '../../atoms/Input/Input.tsx'
 import { loginUser } from '../../../services/authService.ts'
-import type { FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
+import Loader from '../../atoms/Loader/Loader.tsx'
 
 interface LoginProps {
 	classes?: string
 }
 
 const Login = ({ classes }: LoginProps) => {
+	const [loading, setLoading] = useState(false)
 	const { setAuth } = useAuth()
 
-	const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		setLoading(true)
 
 		const dataList = new FormData(e.target as HTMLFormElement) as FormData
 		const userEmail = dataList.get('email') as string
@@ -30,11 +33,12 @@ const Login = ({ classes }: LoginProps) => {
 				setAuth({ email, role, accessToken })
 				window.location.href = '/messages'
 			})
-			.catch((reasons) =>
+			.catch((reasons) => {
 				reasons?.errors?.[0]
 					? alert(reasons?.errors?.[0].msg)
 					: alert('An unknown error occur')
-			)
+				setLoading(false)
+			})
 	}
 
 	return (
@@ -55,6 +59,7 @@ const Login = ({ classes }: LoginProps) => {
 					Sign in
 				</Button>
 			</form>
+			{loading && <Loader />}
 		</>
 	)
 }
