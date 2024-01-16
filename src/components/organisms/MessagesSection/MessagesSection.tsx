@@ -1,4 +1,3 @@
-import type React from 'react'
 import Button from '../../atoms/Button/Button.tsx'
 
 const MessagesSection = () => {
