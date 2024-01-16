@@ -4,24 +4,34 @@ export const $theme = atom(window.localStorage.fbmapp_theme)
 
 export function initTheme() {
 	if (
-		$theme.get() === 'dark' ||
+		window.localStorage.fbmapp_theme === 'dark' ||
 		(!('fbmapp_theme' in window.localStorage) &&
 			window.matchMedia('(prefers-color-scheme: dark)').matches)
 	) {
 		document.documentElement.classList.add('dark')
+		$theme.set('dark')
 	} else {
 		document.documentElement.classList.remove('dark')
+		$theme.set('light')
 	}
+
+	window.localStorage.fbmapp_theme = String($theme.get())
 }
 
 export function changeTheme(theme: string) {
-	if (theme === 'system') {
-		window.localStorage.removeItem('fbmapp_theme')
+	if (
+		theme === 'dark' ||
+		(theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)'))
+			.matches
+	) {
+		document.documentElement.classList.add('dark')
+		$theme.set('dark')
 	} else {
-		window.localStorage.fbmapp_theme = String(theme)
+		document.documentElement.classList.remove('dark')
+		$theme.set('light')
 	}
-	$theme.set(theme)
-	initTheme()
+
+	window.localStorage.fbmapp_theme = String($theme.get())
 }
 
 initTheme()

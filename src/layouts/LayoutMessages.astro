@@ -12,7 +12,7 @@ const { title } = Astro.props
 <Layout title={title}>
 	<div class="app-container">
 		<HeaderSection />
-		<div class="rounded-lg p-2 bg-[--background]">Foto contacto</div>
+		<div class="p-4 bg-[--secondary]">Foto contacto</div>
 		<AsideSection client:only="react" />
 		<slot />
 	</div>
@@ -21,10 +21,12 @@ const { title } = Astro.props
 <style>
 	.app-container {
 		display: grid;
-		gap: 8px;
+		gap: 0 1px;
 		grid-template-columns: 1fr 3fr;
 		grid-template-rows: 4rem auto;
-		height: 100%;
+
 		width: 100%;
+		max-width: 1643px;
+		background-color: var(--border);
 	}
 </style>

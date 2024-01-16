@@ -28,7 +28,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 		| 'week'
 	disabled?: boolean
 	classes?: string
-	children: ReactNode
+	children?: ReactNode
 }
 
 const Input = ({
@@ -47,8 +47,11 @@ const Input = ({
 			? specialColorVariants.muted
 			: 'bg-[--background] hover:opacity-80',
 		'border-[--border]',
-		'focus:ring-2',
-		'focus:ring-[--ring]'
+		'border-2',
+		'rounded-[10px]',
+		'm-0',
+		'px-[10px]',
+		'py-[5px]'
 	)
 
 	return (

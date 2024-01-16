@@ -24,7 +24,7 @@ const ConfigMenuDialog = () => {
 		<>
 			<Button
 				size="lg"
-				classes="p-1"
+				classes="p-2 bg-transparent"
 				variant="secondary"
 				onClick={openConfigDialog}
 			>

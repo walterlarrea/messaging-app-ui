@@ -25,6 +25,8 @@ const AsideSection = () => {
 				reasons?.errors?.[0]
 					? alert(reasons?.errors?.[0].msg)
 					: alert('An unknown error occur')
+
+				window.location.href = '/'
 			})
 	}, [])
 
@@ -42,15 +44,22 @@ const AsideSection = () => {
 	}
 
 	return (
-		<aside className="rounded-lg p-2 bg-[--background]">
-			<div className="flex justify-between">
-				<span>Chats</span>
-				<Button size="lg" classes="p-2" onClick={openFriendDialog}>
+		<aside className="flex flex-col gap-2 overflow-y-auto bg-[--card]">
+			<div className="flex justify-between items-center p-2">
+				<span>Messages</span>
+				<Button
+					size="lg"
+					variant="secondary"
+					classes="p-2"
+					onClick={openFriendDialog}
+				>
 					<FaUserPlus />
 				</Button>
 			</div>
 
-			<UserList users={friends} />
+			<div className="overflow-y-auto">
+				<UserList users={friends} />
+			</div>
 
 			<Dialog
 				title="Friends requests"
