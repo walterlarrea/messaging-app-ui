@@ -10,6 +10,53 @@
 
 @layer base {
 	:root {
+		--background: hsl(0, 0%, 100%);
+		--foreground: hsl(240, 10%, 3.9%);
+		--card: hsl(0, 0%, 100%);
+		--card-foreground: hsl(240, 10%, 3.9%);
+		--popover: hsl(0, 0%, 100%);
+		--popover-foreground: hsl(240, 10%, 3.9%);
+		--primary: hsl(346.8, 77.2%, 49.8%);
+		--primary-foreground: hsl(355.7, 100%, 97.3%);
+		--secondary: hsl(240, 4.8%, 95.9%);
+		--secondary-foreground: hsl(240, 5.9%, 10%);
+		--muted: hsl(240, 4.8%, 95.9%);
+		--muted-foreground: hsl(240, 3.8%, 46.1%);
+		--accent: hsl(240, 4.8%, 95.9%);
+		--accent-foreground: hsl(240, 5.9%, 10%);
+		--destructive: hsl(0, 84.2%, 60.2%);
+		--destructive-foreground: hsl(0, 0%, 98%);
+		--border: hsl(240, 5.9%, 90%);
+		--input: hsl(240, 5.9%, 90%);
+		--ring: hsl(346.8, 77.2%, 49.8%);
+		--radius: 0.75rem;
+	}
+
+	.dark {
+		--background: hsl(20, 14.3%, 4.1%);
+		--foreground: hsl(0, 0%, 95%);
+		--card: hsl(24, 9.8%, 10%);
+		--card-foreground: hsl(0, 0%, 95%);
+		--popover: hsl(0, 0%, 9%);
+		--popover-foreground: hsl(0, 0%, 95%);
+		--primary: hsl(346.8, 77.2%, 49.8%);
+		--primary-foreground: hsl(355.7, 100%, 97.3%);
+		--secondary: hsl(240, 3.7%, 15.9%);
+		--secondary-foreground: hsl(0, 0%, 98%);
+		--muted: hsl(0, 0%, 15%);
+		--muted-foreground: hsl(240, 5%, 64.9%);
+		--accent: hsl(12, 6.5%, 15.1%);
+		--accent-foreground: hsl(0, 0%, 98%);
+		--destructive: hsl(0, 62.8%, 30.6%);
+		--destructive-foreground: hsl(0, 85.7%, 97.3%);
+		--border: hsl(240, 3.7%, 15.9%);
+		--input: hsl(240, 3.7%, 15.9%);
+		--ring: hsl(346.8, 77.2%, 49.8%);
+	}
+}
+
+/* @layer base {
+	:root {
 		--background: hsl(0 0% 100%);
 		--foreground: hsl(222.2 84% 4.9%);
 		--card: hsl(0 0% 100%);
@@ -53,7 +100,7 @@
 		--input: hsl(217.2 32.6% 17.5%);
 		--ring: hsl(224.3 76.3% 48%);
 	}
-}
+} */
 
 :root {
 	/* --primary: #007bff;
@@ -81,9 +128,22 @@ body {
 		sans-serif;
 	font-size: 16px;
 	color: var(--foreground);
-	background-color: var(--secondary);
+	background-color: var(--background);
 }
 
-input:focus {
+::-webkit-scrollbar {
+	background-color: transparent;
+	width: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--border);
+}
+
+button:focus-visible,
+input:focus-visible {
 	outline: none;
+	box-shadow:
+		0 0 0 calc(2px) var(--background),
+		0 0 0 calc(2px + 2px) var(--ring);
 }

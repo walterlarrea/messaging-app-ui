@@ -1,17 +1,6 @@
 input {
-	font: inherit;
-	padding: 5px;
-	margin: 0;
-	border: 2px lightgray solid;
-	border-radius: 10px;
 	transition: box-shadow 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 	/* border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1); */
-}
-
-input:focus-visible {
-	box-shadow:
-		0 0 0 0.1em inherit,
-		0 0 0 0.3em inherit;
 }
 
 [data-size='sm'] {

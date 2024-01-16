@@ -9,7 +9,9 @@ const UserList = ({ users }: UserListProps) => {
 	return (
 		<ul>
 			{users.map(({ id, username }) => (
-				<UserItem key={id} userName={username} />
+				<li key={id}>
+					<UserItem userName={username} />
+				</li>
 			))}
 		</ul>
 	)
