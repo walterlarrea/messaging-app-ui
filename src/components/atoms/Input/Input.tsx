@@ -48,7 +48,7 @@ const Input = ({
 			: 'bg-[--background] hover:opacity-80',
 		'border-[--border]',
 		'border-2',
-		'rounded-[10px]',
+		'rounded-[--radius]',
 		'm-0',
 		'px-[10px]',
 		'py-[5px]'

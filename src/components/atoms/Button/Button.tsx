@@ -32,7 +32,8 @@ const Button = ({
 		disabled ? specialColorVariants.muted : actionColorVariants[variant],
 		disabled && 'cursor-default',
 		'h-fit',
-		'text-nowrap'
+		'text-nowrap',
+		'rounded-[--radius]'
 	)
 
 	return (

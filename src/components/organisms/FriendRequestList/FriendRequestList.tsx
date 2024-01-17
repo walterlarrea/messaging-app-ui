@@ -23,10 +23,11 @@ const FriendRequestList = () => {
 			.then((result: TUserPublic[]) => {
 				setFriendRequests(result)
 			})
-			.catch((reasons) => {
-				reasons?.errors?.[0]
-					? alert(reasons?.errors?.[0].msg)
-					: alert('An unknown error occur')
+			.catch((error: TApiErrors) => {
+				const message = error?.errors?.[0]
+					? error?.errors?.[0].msg
+					: 'An unknown error occur'
+				toast.error(message)
 			})
 	}, [])
 

@@ -16,9 +16,9 @@ export const specialColorVariants = {
 }
 
 export const variants = {
-	primary: 'text-[--light] bg-[--primary]',
-	secondary: 'text-[--light] bg-[--primary]',
-	success: 'text-[--light] bg-[--success]',
+	primary: 'text-[--primary-foreground] bg-[--primary]',
+	secondary: 'text-[--secondary-foreground] bg-[--secondary]',
+	success: 'text-[--destructive-foreground] bg-[--destructive]',
 	danger: 'text-[--light] bg-[--danger]',
 	warning: 'text-[--light] bg-[--warning]',
 	info: 'text-[--light] bg-[--info]',
