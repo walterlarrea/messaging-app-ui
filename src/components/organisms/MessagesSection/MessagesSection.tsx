@@ -2,7 +2,6 @@ import { useEffect, useState, type FormEvent } from 'react'
 import Button from '../../atoms/Button/Button.tsx'
 import Input from '../../atoms/Input/Input.tsx'
 import { HiPaperAirplane } from 'react-icons/hi2'
-import Toast from '../../molecules/Toast/Toast.jsx'
 import { $chat, setCurrentChatMessages } from '../../../store/chat.ts'
 import { useStore } from '@nanostores/react'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
@@ -90,8 +89,6 @@ const MessagesSection = () => {
 					</form>
 				)}
 			</div>
-
-			<Toast />
 		</main>
 	)
 }

@@ -1,4 +1,6 @@
 ---
+import Toast from '../components/molecules/Toast/Toast'
+
 interface Props {
 	title: string
 }
@@ -23,6 +25,7 @@ const { title } = Astro.props
 		<div class="container">
 			<slot />
 		</div>
+		<Toast client:only="react" />
 	</body>
 </html>
 
