@@ -37,8 +37,8 @@ const AsideSection = () => {
 		return <Loader />
 	}
 
-	const openUserChat = (id: number) => {
-		setChatUser(id)
+	const openUserChat = (user: TUserPublic) => {
+		setChatUser(user)
 	}
 
 	const openFriendDialog = () => {
@@ -67,7 +67,7 @@ const AsideSection = () => {
 			<div className="overflow-y-auto">
 				<UserList
 					users={friends}
-					highlightId={chatStore.userId}
+					highlightId={chatStore.currentUser?.id}
 					handleClick={openUserChat}
 				/>
 			</div>

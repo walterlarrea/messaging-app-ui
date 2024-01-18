@@ -22,9 +22,9 @@ const MessagesSection = () => {
 	const sendMessage = useAxiosPrivate(createNewMessage)
 
 	useEffect(() => {
-		if (!chatStore.userId) return
+		if (!chatStore.currentUser?.id) return
 
-		getChat(chatStore.userId)
+		getChat(chatStore.currentUser.id)
 			.then((chatMessages) => setCurrentChatMessages(chatMessages))
 			.catch((error: TApiErrors) => {
 				const message = error?.errors?.[0]
@@ -32,13 +32,13 @@ const MessagesSection = () => {
 					: 'An unknown error occur'
 				toast.error(message)
 			})
-	}, [chatStore.userId])
+	}, [chatStore.currentUser?.id])
 
 	const handleNewMessage = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		if (!msgContent || msgContent.length <= 0) return
 
-		sendMessage({ targetUserId: chatStore.userId, content: msgContent })
+		sendMessage({ targetUserId: chatStore.currentUser.id, content: msgContent })
 			.then(() => {
 				setMsgContent('')
 			})
@@ -57,7 +57,7 @@ const MessagesSection = () => {
 					{chatStore.messages?.map((msg: TUserMessage) => (
 						<ChatMessage
 							key={msg.id}
-							isMine={msg.senderId !== chatStore.userId}
+							isMine={msg.senderId !== chatStore.currentUser?.id}
 							content={msg.content}
 							date={msg.date}
 						/>
@@ -65,7 +65,7 @@ const MessagesSection = () => {
 					))}
 				</div>
 
-				{chatStore.userId && (
+				{chatStore.currentUser && (
 					<form
 						onSubmit={handleNewMessage}
 						className="flex justify-between items-center gap-2"
