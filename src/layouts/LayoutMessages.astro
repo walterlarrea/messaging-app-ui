@@ -2,6 +2,7 @@
 import Layout from './Layout.astro'
 import HeaderSection from '../components/organisms/HeaderSection/HeaderSection.astro'
 import AsideSection from '../components/organisms/AsideSection/AsideSection.tsx'
+import MessagesHeader from '../components/organisms/MessagesHeader/MessagesHeader'
 interface Props {
 	title: string
 }
@@ -12,7 +13,8 @@ const { title } = Astro.props
 <Layout title={title}>
 	<div class="app-container">
 		<HeaderSection />
-		<div class="p-4 bg-[--secondary]">Foto contacto</div>
+		<!-- <div class="p-4 bg-[--secondary]">Foto contacto</div> -->
+		<MessagesHeader client:only="react" />
 		<AsideSection client:only="react" />
 		<slot />
 	</div>

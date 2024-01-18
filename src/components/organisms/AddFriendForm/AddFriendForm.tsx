@@ -4,6 +4,7 @@ import Input from '../../atoms/Input/Input.tsx'
 import { requestFriend } from '../../../services/friendsService.ts'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
 import type { TApiErrors } from '../../../types/error'
+import { toast } from 'react-toastify'
 
 interface LoginProps {
 	classes?: string
@@ -19,12 +20,13 @@ const AddFriendForm = ({ classes }: LoginProps) => {
 
 		addFriend(targetUser)
 			.then(() => {
-				alert('Success')
+				toast.success('Friend request sent')
 			})
 			.catch((error: TApiErrors) => {
-				error?.errors?.[0]
-					? alert(error?.errors?.[0])
-					: alert('An unknown error occur')
+				const message = error?.errors?.[0]
+					? error?.errors?.[0].msg
+					: 'An unknown error occur'
+				toast.error(message)
 			})
 	}
 

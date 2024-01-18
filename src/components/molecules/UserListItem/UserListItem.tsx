@@ -5,13 +5,20 @@ import type { ReactNode } from 'react'
 
 interface ItemProps {
 	userName: string
+	highlight?: boolean
 	children?: ReactNode
 }
 
-const UserListItem = ({ userName, children }: ItemProps) => {
+const UserListItem = ({ userName, highlight, children }: ItemProps) => {
 	const classnames = classNames(
 		bgColorVariants.card,
-		'flex flex-nowrap gap-[8px] p-2 cursor-pointer bg-[--transparent] hover:bg-[--background]'
+		'flex',
+		'flex-nowrap',
+		'gap-[8px]',
+		'p-2',
+		'cursor-pointer',
+		highlight && 'bg-[--secondary]',
+		'hover:bg-[--secondary]'
 	)
 
 	return (

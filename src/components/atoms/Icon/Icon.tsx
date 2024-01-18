@@ -31,7 +31,8 @@ const Button = ({
 		//{ outline },
 		disabled ? specialColorVariants.muted : actionColorVariants[variant],
 		disabled && 'cursor-default',
-		'h-fit'
+		'h-fit',
+		'rounded-[--radius]'
 	)
 
 	return (

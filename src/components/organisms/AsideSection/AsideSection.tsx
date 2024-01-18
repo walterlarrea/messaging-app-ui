@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { $chat, setChatUser } from '../../../store/chat'
 import Button from '../../atoms/Button/Button'
 import UserList from '../UserList/UserList'
 import { getFriends } from '../../../services/friendsService'
@@ -9,8 +10,10 @@ import AddFriendForm from '../AddFriendForm/AddFriendForm'
 import FriendRequestList from '../FriendRequestList/FriendRequestList'
 import { FaUserPlus } from 'react-icons/fa6'
 import Loader from '../../atoms/Loader/Loader'
+import { useStore } from '@nanostores/react'
 
 const AsideSection = () => {
+	const chatStore = useStore($chat)
 	const [friends, setFriends] = useState<TUserPublic[]>()
 	const friendDialog = useRef<HTMLDialogElement>(null)
 	const [dialogOpen, setDialogOpen] = useState(false)
@@ -30,6 +33,14 @@ const AsideSection = () => {
 			})
 	}, [])
 
+	if (!friends) {
+		return <Loader />
+	}
+
+	const openUserChat = (user: TUserPublic) => {
+		setChatUser(user)
+	}
+
 	const openFriendDialog = () => {
 		friendDialog.current?.showModal()
 		setDialogOpen(true)
@@ -37,10 +48,6 @@ const AsideSection = () => {
 	const closeFriendDialog = () => {
 		friendDialog.current?.close()
 		setDialogOpen(false)
-	}
-
-	if (!friends) {
-		return <Loader />
 	}
 
 	return (
@@ -58,7 +65,11 @@ const AsideSection = () => {
 			</div>
 
 			<div className="overflow-y-auto">
-				<UserList users={friends} />
+				<UserList
+					users={friends}
+					highlightId={chatStore.currentUser?.id}
+					handleClick={openUserChat}
+				/>
 			</div>
 
 			<Dialog
