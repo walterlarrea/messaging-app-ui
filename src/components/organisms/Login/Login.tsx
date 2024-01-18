@@ -4,6 +4,8 @@ import Input from '../../atoms/Input/Input.tsx'
 import { loginUser } from '../../../services/authService.ts'
 import { useState, type FormEvent } from 'react'
 import Loader from '../../atoms/Loader/Loader.tsx'
+import { toast } from 'react-toastify'
+import type { TApiErrors } from '../../../types/error'
 
 interface LoginProps {
 	classes?: string
@@ -15,11 +17,17 @@ const Login = ({ classes }: LoginProps) => {
 
 	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		const form = e.target as HTMLFormElement
 		setLoading(true)
 
-		const dataList = new FormData(e.target as HTMLFormElement) as FormData
+		const dataList = new FormData(form) as FormData
 		const userEmail = dataList.get('email') as string
 		const userPwd = dataList.get('password') as string
+
+		const formInputs = form.getElementsByTagName('input')
+		for (const input of formInputs) {
+			input.value = ''
+		}
 
 		loginUser({
 			email: userEmail,
@@ -33,10 +41,11 @@ const Login = ({ classes }: LoginProps) => {
 				setAuth({ email, role, accessToken })
 				window.location.href = '/messages'
 			})
-			.catch((reasons) => {
-				reasons?.errors?.[0]
-					? alert(reasons?.errors?.[0].msg)
-					: alert('An unknown error occur')
+			.catch((error: TApiErrors) => {
+				const message = error?.errors?.[0]
+					? error?.errors?.[0].msg
+					: 'An unknown error occur'
+				toast.error(message)
 				setLoading(false)
 			})
 	}
