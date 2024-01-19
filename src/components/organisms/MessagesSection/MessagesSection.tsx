@@ -66,6 +66,7 @@ const MessagesSection = () => {
 
 				{chatStore.currentUser && (
 					<form
+						autoComplete="off"
 						onSubmit={handleNewMessage}
 						className="flex justify-between items-center gap-2"
 					>

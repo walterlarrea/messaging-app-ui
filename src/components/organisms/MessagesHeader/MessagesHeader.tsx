@@ -12,7 +12,6 @@ const MessagesHeader = () => {
 		'flex-nowrap',
 		'gap-[8px]',
 		'p-2',
-		'cursor-pointer',
 		'bg-[--secondary]'
 	)
 
