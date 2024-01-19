@@ -1,5 +1,9 @@
-import { useEffect } from 'react'
-import { $chat, setCurrentChatMessages } from '../../../store/chat.ts'
+import { useEffect, useRef } from 'react'
+import {
+	$chat,
+	setCurrentChatMessages,
+	addOneCurrentChatMessage,
+} from '../../../store/chat.ts'
 import { useStore } from '@nanostores/react'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
 import {
@@ -10,16 +14,14 @@ import type { TApiErrors } from '../../../types/error'
 import { toast } from 'react-toastify'
 import type { TUserMessage } from '../../../types/message'
 import ChatMessage from '../../molecules/ChatMessage/ChatMessage.tsx'
-import { io } from 'socket.io-client'
-import { $auth } from '../../../store/auth.ts'
 import MessageForm from '../../molecules/MessageForm/MessageForm.tsx'
+import SOCKET from '../../../utils/wsGlobalHandler.ts'
 
 const MessagesSection = () => {
 	const chatStore = useStore($chat)
-	const authStore = useStore($auth)
 	const getChat = useAxiosPrivate(getChatWithUser)
 	const sendMessage = useAxiosPrivate(createNewMessage)
-	const socket = io('http://localhost:3000')
+	const messagesContainer = useRef(null)
 
 	useEffect(() => {
 		if (!chatStore.currentUser?.id) return
@@ -35,21 +37,9 @@ const MessagesSection = () => {
 	}, [chatStore.currentUser?.id])
 
 	useEffect(() => {
-		if (socket === null) return
-		if (!authStore?.userId) return
-
-		socket.emit('addOnlineUser', authStore.userId)
-
-		socket.on('getMessage', (res) => {
-			// This should never happen as the backend is the one targeting messages
-			if (res.receiverId !== authStore?.userId) return
-
-			setCurrentChatMessages([...chatStore.messages, res])
-		})
-		return () => {
-			socket.off('getMessage')
-		}
-	}, [socket])
+		if (!messagesContainer.current) return
+		messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
+	}, [chatStore.messages, chatStore.messages?.length])
 
 	const handleNewMessage = async (messageContent: string) => {
 		const newMessage = {
@@ -59,8 +49,8 @@ const MessagesSection = () => {
 
 		const messageResult: boolean = await sendMessage(newMessage)
 			.then((result) => {
-				setCurrentChatMessages([...chatStore.messages, result])
-				socket.emit('sendMessage', result)
+				addOneCurrentChatMessage(result)
+				SOCKET.emit('sendMessage', result)
 				return true
 			})
 			.catch((error: TApiErrors) => {
@@ -77,7 +67,10 @@ const MessagesSection = () => {
 	return (
 		<main className="p-4 overflow-y-auto bg-[--accent]">
 			<div className="flex flex-col gap-4 h-full">
-				<div className="flex flex-col gap-1 overflow-y-auto grow">
+				<div
+					ref={messagesContainer}
+					className="flex flex-col gap-1 overflow-y-auto grow"
+				>
 					{chatStore.messages?.map((msg: TUserMessage) => (
 						<ChatMessage
 							key={msg.id}
