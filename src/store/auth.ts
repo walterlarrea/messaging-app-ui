@@ -1,8 +1,8 @@
 import { atom } from 'nanostores'
-import type { IAuthLocal } from '../types/auth'
+import type { IAuth } from '../types/auth'
 
-export const $auth = atom<IAuthLocal>()
+export const $auth = atom<IAuth>()
 
-export function setAuth(auth: IAuthLocal) {
+export function setAuth(auth: IAuth) {
 	$auth.set(auth)
 }

@@ -1,4 +1,4 @@
-import useAuth from '../../../hooks/useAuth'
+import { setAuth } from '../../../store/auth.ts'
 import Button from '../../atoms/Button/Button'
 import Input from '../../atoms/Input/Input.tsx'
 import { loginUser } from '../../../services/authService.ts'
@@ -13,7 +13,6 @@ interface LoginProps {
 
 const Login = ({ classes }: LoginProps) => {
 	const [loading, setLoading] = useState(false)
-	const { setAuth } = useAuth()
 
 	const handleLogin = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -35,11 +34,11 @@ const Login = ({ classes }: LoginProps) => {
 		})
 			.then((result) => {
 				const accessToken = result.accessToken
+				const userId = result.userId
 				const role = result.role
-				const email = userEmail
 
-				setAuth({ email, role, accessToken })
-				window.location.href = '/messages'
+				setAuth({ userId, role, accessToken })
+				//window.location.href = '/messages'
 			})
 			.catch((error: TApiErrors) => {
 				const message = error?.errors?.[0]

@@ -1,14 +1,16 @@
 import axios from '../utils/axios.ts'
-import useAuth from './useAuth'
+import { setAuth } from '../store/auth.ts'
 
 const useRefreshToken = () => {
-	const { setAuth } = useAuth()
-
 	const refresh = async () => {
 		const response = await axios.get('/refresh', {
 			withCredentials: true,
 		})
-		setAuth({ accessToken: response.data.accessToken })
+		const accessToken = response.data?.accessToken
+		const userId = response.data?.userId
+		const role = response.data?.role
+
+		setAuth({ userId, role, accessToken })
 		return response.data.accessToken
 	}
 

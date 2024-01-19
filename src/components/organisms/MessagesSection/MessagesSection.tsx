@@ -1,7 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
-import Button from '../../atoms/Button/Button.tsx'
-import Input from '../../atoms/Input/Input.tsx'
-import { HiPaperAirplane } from 'react-icons/hi2'
+import { useEffect } from 'react'
 import { $chat, setCurrentChatMessages } from '../../../store/chat.ts'
 import { useStore } from '@nanostores/react'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
@@ -13,12 +10,16 @@ import type { TApiErrors } from '../../../types/error'
 import { toast } from 'react-toastify'
 import type { TUserMessage } from '../../../types/message'
 import ChatMessage from '../../molecules/ChatMessage/ChatMessage.tsx'
+import { io } from 'socket.io-client'
+import { $auth } from '../../../store/auth.ts'
+import MessageForm from '../../molecules/MessageForm/MessageForm.tsx'
 
 const MessagesSection = () => {
-	const [msgContent, setMsgContent] = useState('')
 	const chatStore = useStore($chat)
+	const authStore = useStore($auth)
 	const getChat = useAxiosPrivate(getChatWithUser)
 	const sendMessage = useAxiosPrivate(createNewMessage)
+	const socket = io('http://localhost:3000')
 
 	useEffect(() => {
 		if (!chatStore.currentUser?.id) return
@@ -33,26 +34,50 @@ const MessagesSection = () => {
 			})
 	}, [chatStore.currentUser?.id])
 
-	const handleNewMessage = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		if (!msgContent || msgContent.length <= 0) return
+	useEffect(() => {
+		if (socket === null) return
+		if (!authStore?.userId) return
 
-		sendMessage({ targetUserId: chatStore.currentUser.id, content: msgContent })
-			.then(() => {
-				setMsgContent('')
+		socket.emit('addOnlineUser', authStore.userId)
+
+		socket.on('getMessage', (res) => {
+			// This should never happen as the backend is the one targeting messages
+			if (res.receiverId !== authStore?.userId) return
+
+			setCurrentChatMessages([...chatStore.messages, res])
+		})
+		return () => {
+			socket.off('getMessage')
+		}
+	}, [socket])
+
+	const handleNewMessage = async (messageContent: string) => {
+		const newMessage = {
+			targetUserId: chatStore.currentUser.id,
+			content: messageContent,
+		}
+
+		const messageResult: boolean = await sendMessage(newMessage)
+			.then((result) => {
+				setCurrentChatMessages([...chatStore.messages, result])
+				socket.emit('sendMessage', result)
+				return true
 			})
 			.catch((error: TApiErrors) => {
 				const message = error?.errors?.[0]
 					? error?.errors?.[0].msg
 					: 'An unknown error occur'
 				toast.error(message)
+				return false
 			})
+
+		return messageResult
 	}
 
 	return (
-		<main className="p-4 bg-[--accent]">
+		<main className="p-4 overflow-y-auto bg-[--accent]">
 			<div className="flex flex-col gap-4 h-full">
-				<div className="flex flex-col gap-1 grow">
+				<div className="flex flex-col gap-1 overflow-y-auto grow">
 					{chatStore.messages?.map((msg: TUserMessage) => (
 						<ChatMessage
 							key={msg.id}
@@ -60,34 +85,11 @@ const MessagesSection = () => {
 							content={msg.content}
 							date={msg.date}
 						/>
-						// <span key={msg.id}>{msg.content} + </span>
 					))}
 				</div>
 
 				{chatStore.currentUser && (
-					<form
-						autoComplete="off"
-						onSubmit={handleNewMessage}
-						className="flex justify-between items-center gap-2"
-					>
-						<Input
-							type="text"
-							boxSize="lg"
-							id="message-text"
-							name="message"
-							placeholder=" Message"
-							value={msgContent}
-							onChange={(e) => setMsgContent(e.target.value)}
-						/>
-						<Button
-							type="submit"
-							size="lg"
-							classes="h-full text-5xl"
-							disabled={msgContent.length <= 0}
-						>
-							<HiPaperAirplane />
-						</Button>
-					</form>
+					<MessageForm submitNewMessage={handleNewMessage} />
 				)}
 			</div>
 		</main>
