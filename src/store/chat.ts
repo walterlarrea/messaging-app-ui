@@ -16,3 +16,14 @@ export function setChatUser(user: TUserPublic) {
 export function setCurrentChatMessages(messages: TUserMessage[]) {
 	$chat.set({ ...$chat.get(), messages })
 }
+
+export function addOneCurrentChatMessage(message: TUserMessage) {
+	const oldState = $chat.get()
+	const newState = {
+		...oldState,
+		messages: oldState.messages,
+	}
+	newState.messages.push(message)
+
+	$chat.set(newState)
+}

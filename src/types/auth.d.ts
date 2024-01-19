@@ -5,11 +5,8 @@ export type TLoginCredentials = {
 
 export interface IAuth {
 	accessToken: string
+	userId: number
 	role: string
-}
-
-export interface IAuthLocal extends IAuth {
-	email: string
 }
 
 // export type AuthStoreType = {
