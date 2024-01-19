@@ -38,7 +38,7 @@ const Login = ({ classes }: LoginProps) => {
 				const role = result.role
 
 				setAuth({ userId, role, accessToken })
-				//window.location.href = '/messages'
+				window.location.href = '/messages'
 			})
 			.catch((error: TApiErrors) => {
 				const message = error?.errors?.[0]
