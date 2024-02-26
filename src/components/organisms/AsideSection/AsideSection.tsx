@@ -1,44 +1,26 @@
-import { useEffect, useRef, useState } from 'react'
-import { $chat, setChatUser } from '../../../store/chat'
+import { useRef, useState } from 'react'
 import Button from '../../atoms/Button/Button'
 import UserList from '../UserList/UserList'
-import { getFriends } from '../../../services/friendsService'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
-import type { TUserPublic } from '../../../types/users'
+import type { TUserFriend } from '../../../types/users'
 import Dialog from '../../molecules/Dialog/Dialog'
 import AddFriendForm from '../AddFriendForm/AddFriendForm'
 import FriendRequestList from '../FriendRequestList/FriendRequestList'
 import { FaUserPlus } from 'react-icons/fa6'
 import Loader from '../../atoms/Loader/Loader'
 import { useStore } from '@nanostores/react'
+import { $friends, setCurrentChat } from '../../../store/friends'
 
 const AsideSection = () => {
-	const chatStore = useStore($chat)
-	const [friends, setFriends] = useState<TUserPublic[]>()
+	const { allFriends, currentFriendChat } = useStore($friends)
 	const friendDialog = useRef<HTMLDialogElement>(null)
 	const [dialogOpen, setDialogOpen] = useState(false)
-	const getUserFriend = useAxiosPrivate(getFriends)
 
-	useEffect(() => {
-		getUserFriend()
-			.then((result: TUserPublic[]) => {
-				setFriends(result)
-			})
-			.catch((reasons) => {
-				reasons?.errors?.[0]
-					? alert(reasons?.errors?.[0].msg)
-					: alert('An unknown error occur')
-
-				window.location.href = '/'
-			})
-	}, [])
-
-	if (!friends) {
+	if (!allFriends) {
 		return <Loader />
 	}
 
-	const openUserChat = (user: TUserPublic) => {
-		setChatUser(user)
+	const openUserChat = (user: TUserFriend) => {
+		setCurrentChat(user)
 	}
 
 	const openFriendDialog = () => {
@@ -66,8 +48,8 @@ const AsideSection = () => {
 
 			<div className="overflow-y-auto">
 				<UserList
-					users={friends}
-					highlightId={chatStore.currentUser?.id}
+					users={allFriends}
+					highlightId={currentFriendChat?.id}
 					handleClick={openUserChat}
 				/>
 			</div>

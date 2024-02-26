@@ -1,3 +1,5 @@
+import type { TUserMessage } from './message'
+
 export type TUserRegister = {
 	email: string
 	username: string
@@ -11,4 +13,8 @@ export type TUserPublic = {
 	id: number
 	firstName: string
 	username: string
+}
+
+export type TUserFriend = TUserPublic & {
+	messages?: TUserMessage[]
 }

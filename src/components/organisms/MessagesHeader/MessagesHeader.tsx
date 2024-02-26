@@ -1,11 +1,11 @@
 import classNames from 'classnames'
-import { $chat } from '../../../store/chat'
+import { $friends } from '../../../store/friends'
 import { useStore } from '@nanostores/react'
 import blankProfilePicture from '../../../assets/images/blank-profile-picture-640.png'
 import { bgColorVariants } from '../../../config/style'
 
 const MessagesHeader = () => {
-	const chatStore = useStore($chat)
+	const friendsStore = useStore($friends)
 	const classnames = classNames(
 		bgColorVariants.card,
 		'flex',
@@ -17,7 +17,7 @@ const MessagesHeader = () => {
 
 	return (
 		<div className={classnames}>
-			{chatStore.currentUser && (
+			{friendsStore.currentFriendChat && (
 				<>
 					<img
 						src={blankProfilePicture.src}
@@ -26,7 +26,7 @@ const MessagesHeader = () => {
 					/>
 					<div className="grow flex flex-col overflow-hidden">
 						<span className="font-semibold truncate">
-							{chatStore.currentUser.username}
+							{friendsStore.currentFriendChat.username}
 						</span>
 						<span className="text-[--muted-foreground] truncate"></span>
 					</div>

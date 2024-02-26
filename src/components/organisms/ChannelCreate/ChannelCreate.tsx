@@ -1,11 +1,8 @@
 import type React from 'react'
 import Button from '../../atoms/Button/Button.tsx'
 import { createNewChannel } from '../../../services/channelService.ts'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
 
 const MessagesSection = () => {
-	const createChannel = useAxiosPrivate(createNewChannel)
-
 	const handleNewChannel = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
@@ -13,7 +10,7 @@ const MessagesSection = () => {
 		const title = dataList.get('title') as string
 		const description = dataList.get('description') as string
 
-		createChannel({
+		createNewChannel({
 			title,
 			description,
 		})

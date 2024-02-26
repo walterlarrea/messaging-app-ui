@@ -2,7 +2,6 @@ import type { FormEvent } from 'react'
 import Button from '../../atoms/Button/Button'
 import Input from '../../atoms/Input/Input.tsx'
 import { requestFriend } from '../../../services/friendsService.ts'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
 import type { TApiErrors } from '../../../types/error'
 import { toast } from 'react-toastify'
 
@@ -11,14 +10,12 @@ interface LoginProps {
 }
 
 const AddFriendForm = ({ classes }: LoginProps) => {
-	const addFriend = useAxiosPrivate(requestFriend)
-
 	const handleAddFriend = (e: FormEvent) => {
 		e.preventDefault()
 		const formData = new FormData(e.target as HTMLFormElement)
 		const targetUser = formData.get('username')
 
-		addFriend(targetUser)
+		requestFriend(String(targetUser))
 			.then(() => {
 				toast.success('Friend request sent')
 			})

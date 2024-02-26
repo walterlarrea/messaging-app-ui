@@ -9,10 +9,11 @@ const SOCKET = io(BASE_URL, { path: '/ws' })
 
 $auth.listen((auth) => {
 	if (SOCKET === null) return
-	if (!auth.userId) return
+	if (!auth?.userId) return
 
 	SOCKET.emit('addOnlineUser', auth.userId)
 
+	SOCKET.off('getMessage')
 	SOCKET.on('getMessage', (res) => {
 		// This should never happen as the backend is targeting the messages
 		if (res.receiverId !== auth?.userId) return

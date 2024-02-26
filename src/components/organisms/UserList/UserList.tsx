@@ -1,10 +1,10 @@
-import type { TUserPublic } from '../../../types/users'
+import type { TUserFriend } from '../../../types/users'
 import UserItem from '../../molecules/UserListItem/UserListItem'
 
 interface UserListProps {
-	users: TUserPublic[]
+	users: TUserFriend[]
 	highlightId?: number
-	handleClick?: (user: TUserPublic) => void
+	handleClick?: (user: TUserFriend) => void
 }
 
 const UserList = ({ users, highlightId, handleClick }: UserListProps) => {

@@ -1,3 +1,3 @@
 export const API_URI: string = window
-	? window.location.origin
+	? 'http://localhost:3001' // window.location.origin
 	: import.meta.env.PUBLIC_SITE
