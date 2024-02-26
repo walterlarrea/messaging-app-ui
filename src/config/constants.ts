@@ -1,4 +1,3 @@
-export const API_URI: string =
-	process.env.NODE_ENV === 'production'
-		? 'http://localhost:5000'
-		: 'http://localhost:3001'
+export const API_URI: string = window
+	? window.location.origin
+	: import.meta.env.PUBLIC_SITE
