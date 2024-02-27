@@ -18,3 +18,5 @@ export type TUserPublic = {
 export type TUserFriend = TUserPublic & {
 	messages?: TUserMessage[]
 }
+
+export type TUserFriendDictionary = Map<number, TUserFriend>
