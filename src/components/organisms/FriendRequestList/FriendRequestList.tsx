@@ -1,42 +1,22 @@
-import { useEffect, useState } from 'react'
-// import Button from '../../atoms/Button/Button'
-import {
-	getFriendRequests,
-	approveFriendRequest,
-} from '../../../services/friendsService'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
-import type { TUserPublic } from '../../../types/users'
+import { approveFriendRequest } from '../../../services/friendsService'
 import type { TApiErrors } from '../../../types/error'
 import UserListItem from '../../molecules/UserListItem/UserListItem'
 import { FaCheck } from 'react-icons/fa6'
 import Loader from '../../atoms/Loader/Loader'
 import Button from '../../atoms/Button/Button'
 import { toast } from 'react-toastify'
+import { useStore } from '@nanostores/react'
+import { $friends } from '../../../store/friends'
 
 const FriendRequestList = () => {
-	const [friendRequests, setFriendRequests] = useState<TUserPublic[]>()
-	const getUserFriendRequests = useAxiosPrivate(getFriendRequests)
-	const acceptFriendRequest = useAxiosPrivate(approveFriendRequest)
-
-	useEffect(() => {
-		getUserFriendRequests()
-			.then((result: TUserPublic[]) => {
-				setFriendRequests(result)
-			})
-			.catch((error: TApiErrors) => {
-				const message = error?.errors?.[0]
-					? error?.errors?.[0].msg
-					: 'An unknown error occur'
-				toast.error(message)
-			})
-	}, [])
+	const { friendRequests } = useStore($friends)
 
 	if (!friendRequests) {
 		return <Loader />
 	}
 
 	const handleFriendRequest = (targetUserId: number) => () => {
-		toast.promise(acceptFriendRequest(targetUserId), {
+		toast.promise(approveFriendRequest(targetUserId), {
 			pending: 'Approving friend request',
 			success: 'Friend request successfully approved',
 			error: {

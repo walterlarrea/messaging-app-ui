@@ -8,11 +8,11 @@ export default axios.create({
 	baseURL: BASE_URL,
 }) as AxiosInstance
 
-export const axiosPrivate = axios.create({
+export const axiosPrivate: AxiosInstance = axios.create({
 	baseURL: BASE_URL,
 	headers: { 'Content-Type': 'application/json' },
 	withCredentials: true,
-}) as AxiosInstance
+})
 
 export const manageApiErrors = (error: AxiosError) => {
 	const apiErrors = error.response?.data as TApiErrors

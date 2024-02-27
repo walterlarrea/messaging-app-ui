@@ -1,17 +1,17 @@
-import type { TUserPublic } from '../../../types/users'
+import type { TUserFriend, TUserFriendDictionary } from '../../../types/users'
 import UserItem from '../../molecules/UserListItem/UserListItem'
 
 interface UserListProps {
-	users: TUserPublic[]
+	users: TUserFriendDictionary
 	highlightId?: number
-	handleClick?: (user: TUserPublic) => void
+	handleClick?: (user: TUserFriend) => void
 }
 
 const UserList = ({ users, highlightId, handleClick }: UserListProps) => {
 	return (
 		<ul>
-			{users.map(({ id, username }, i) => (
-				<li key={id} onClick={() => handleClick(users[i])}>
+			{Array.from(users.values()).map(({ id, username }) => (
+				<li key={id} onClick={() => handleClick(users.get(id))}>
 					<UserItem userName={username} highlight={highlightId === id} />
 				</li>
 			))}

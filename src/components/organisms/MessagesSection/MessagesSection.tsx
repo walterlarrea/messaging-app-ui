@@ -1,65 +1,28 @@
-import { useEffect, useRef } from 'react'
-import {
-	$chat,
-	setCurrentChatMessages,
-	addOneCurrentChatMessage,
-} from '../../../store/chat.ts'
-import { useStore } from '@nanostores/react'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate.js'
-import {
-	getChatWithUser,
-	createNewMessage,
-} from '../../../services/messageService.ts'
-import type { TApiErrors } from '../../../types/error'
-import { toast } from 'react-toastify'
 import type { TUserMessage } from '../../../types/message'
-import ChatMessage from '../../molecules/ChatMessage/ChatMessage.tsx'
+import { useEffect, useRef } from 'react'
+import { useStore } from '@nanostores/react'
 import MessageForm from '../../molecules/MessageForm/MessageForm.tsx'
-import SOCKET from '../../../utils/wsGlobalHandler.ts'
+import ChatMessage from '../../molecules/ChatMessage/ChatMessage.tsx'
+import { $chat, sendNewChatMessage } from '../../../store/chat.ts'
+import { $friends } from '../../../store/friends.ts'
 
 const MessagesSection = () => {
 	const chatStore = useStore($chat)
-	const getChat = useAxiosPrivate(getChatWithUser)
-	const sendMessage = useAxiosPrivate(createNewMessage)
+	const friendStore = useStore($friends)
 	const messagesContainer = useRef(null)
-
-	useEffect(() => {
-		if (!chatStore.currentUser?.id) return
-
-		getChat(chatStore.currentUser.id)
-			.then((chatMessages) => setCurrentChatMessages(chatMessages))
-			.catch((error: TApiErrors) => {
-				const message = error?.errors?.[0]
-					? error?.errors?.[0].msg
-					: 'An unknown error occur'
-				toast.error(message)
-			})
-	}, [chatStore.currentUser?.id])
 
 	useEffect(() => {
 		if (!messagesContainer.current) return
 		messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
-	}, [chatStore.messages, chatStore.messages?.length])
+	}, [chatStore.messages && chatStore.messages?.length])
 
 	const handleNewMessage = async (messageContent: string) => {
 		const newMessage = {
-			targetUserId: chatStore.currentUser.id,
+			targetUserId: friendStore.currentFriendChat.id,
 			content: messageContent,
 		}
 
-		const messageResult: boolean = await sendMessage(newMessage)
-			.then((result) => {
-				addOneCurrentChatMessage(result)
-				SOCKET.emit('sendMessage', result)
-				return true
-			})
-			.catch((error: TApiErrors) => {
-				const message = error?.errors?.[0]
-					? error?.errors?.[0].msg
-					: 'An unknown error occur'
-				toast.error(message)
-				return false
-			})
+		const messageResult: boolean = await sendNewChatMessage(newMessage)
 
 		return messageResult
 	}
@@ -74,14 +37,14 @@ const MessagesSection = () => {
 					{chatStore.messages?.map((msg: TUserMessage) => (
 						<ChatMessage
 							key={msg.id}
-							isMine={msg.senderId !== chatStore.currentUser?.id}
+							isMine={msg.senderId !== friendStore.currentFriendChat?.id}
 							content={msg.content}
 							date={msg.date}
 						/>
 					))}
 				</div>
 
-				{chatStore.currentUser && (
+				{friendStore.currentFriendChat && (
 					<MessageForm submitNewMessage={handleNewMessage} />
 				)}
 			</div>

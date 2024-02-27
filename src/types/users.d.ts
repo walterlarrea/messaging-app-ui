@@ -1,3 +1,5 @@
+import type { TUserMessage } from './message'
+
 export type TUserRegister = {
 	email: string
 	username: string
@@ -12,3 +14,9 @@ export type TUserPublic = {
 	firstName: string
 	username: string
 }
+
+export type TUserFriend = TUserPublic & {
+	messages?: TUserMessage[]
+}
+
+export type TUserFriendDictionary = Map<number, TUserFriend>
