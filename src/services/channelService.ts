@@ -4,7 +4,7 @@ import { manageApiErrors } from '../utils/axios.ts'
 import axiosPrivateRefresh from '../utils/axiosPrivateRefresh.ts'
 
 export const createNewChannel = async (newChannel: TChannelCreate) => {
-	const axiosPrivate = axiosPrivateRefresh()
+	const { axiosPrivate } = axiosPrivateRefresh()
 
 	return await axiosPrivate
 		.post('/api/channel', newChannel)

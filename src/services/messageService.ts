@@ -7,7 +7,7 @@ import axiosPrivateRefresh from '../utils/axiosPrivateRefresh'
 export const getChatWithUser = async (
 	targetUserId: number
 ): Promise<TUserMessage[]> => {
-	const axiosPrivate = axiosPrivateRefresh()
+	const { axiosPrivate } = axiosPrivateRefresh()
 
 	return await axiosPrivate
 		.get(`/api/message/${targetUserId}`)
@@ -21,7 +21,7 @@ export const createNewMessage = async ({
 	targetUserId,
 	content,
 }): Promise<TUserMessage> => {
-	const axiosPrivate = axiosPrivateRefresh()
+	const { axiosPrivate } = axiosPrivateRefresh()
 
 	return await axiosPrivate
 		.post('/api/message', { target_user_id: targetUserId, content })

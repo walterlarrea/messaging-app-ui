@@ -4,7 +4,7 @@ import type { TUserFriend } from '../types/users'
 import axiosPrivateRefresh from '../utils/axiosPrivateRefresh'
 
 export const getFriendRequests = async (): Promise<TUserFriend[]> => {
-	const axiosPrivate = axiosPrivateRefresh()
+	const { axiosPrivate } = axiosPrivateRefresh()
 
 	return await axiosPrivate
 		.get('/api/friends/incoming-requests')
@@ -15,7 +15,7 @@ export const getFriendRequests = async (): Promise<TUserFriend[]> => {
 }
 
 export const getFriends = async (): Promise<TUserFriend[]> => {
-	const axiosPrivate = axiosPrivateRefresh()
+	const { axiosPrivate } = axiosPrivateRefresh()
 
 	return await axiosPrivate
 		.get('/api/friends')
@@ -26,7 +26,7 @@ export const getFriends = async (): Promise<TUserFriend[]> => {
 }
 
 export const requestFriend = async (targetUsername: string) => {
-	const axiosPrivate = axiosPrivateRefresh()
+	const { axiosPrivate } = axiosPrivateRefresh()
 
 	return await axiosPrivate
 		.post('/api/friends/request', {
@@ -39,7 +39,7 @@ export const requestFriend = async (targetUsername: string) => {
 }
 
 export const approveFriendRequest = async (targetUserId: number) => {
-	const axiosPrivate = axiosPrivateRefresh()
+	const { axiosPrivate } = axiosPrivateRefresh()
 
 	return await axiosPrivate
 		.patch('/api/friends/request', {
