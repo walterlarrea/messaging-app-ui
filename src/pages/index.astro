@@ -16,6 +16,7 @@ import Input from '../components/atoms/Input/Input'
 			<form
 				class="flex flex-col w-full sm:max-w-md p-[15px] border-2 border-[--border] rounded-[20px] bg-[--background]"
 				id="register-form"
+				novalidate
 			>
 				<Input classes="ms-4 mb-4" id="email" name="email" type="email">
 					E-mail
@@ -62,10 +63,52 @@ import Input from '../components/atoms/Input/Input'
 	import { toast } from 'react-toastify'
 	import type { TUserRegister } from '../types/users'
 	import type { TApiErrors } from '../types/error'
+	import * as Yup from 'yup'
 
-	const loginForm = document.getElementById('register-form') as HTMLFormElement
+	const { object, string } = Yup
 
-	loginForm.addEventListener('submit', async (e: SubmitEvent) => {
+	const signUpSchema = object().shape({
+		password_confirm: string()
+			.ensure()
+			.when('password', {
+				is: (password: string, password_confirm: string) =>
+					password && password.length > 0,
+				then: () =>
+					string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+			})
+			.required('Password confirmation is required'),
+		password: string()
+			.matches(
+				/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,30}$/,
+				'Password must have one uppercase, one lowercase, and one numeric digit'
+			)
+			.required('A password is required'),
+		last_name: string()
+			.min(3, 'Lastname must be between 3 and 25 characters')
+			.max(25, 'Lastname must be between 3 and 25 characters'),
+		first_name: string()
+			.required('Your name is a required field')
+			.min(3, 'Name must be between 3 and 20 characters')
+			.max(20, 'Name must be between 3 and 20 characters'),
+		username: string()
+			.required('Username is a required field')
+			.min(5, 'Username must be between 5 and 25 characters')
+			.max(25, 'Username must be between 5 and 25 characters'),
+		email: string()
+			.matches(
+				/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]){2,3}$/,
+				'E-mail is not valid'
+			)
+			.email()
+			.required('E-mail is required')
+			.max(60),
+	})
+
+	const registerForm = document.getElementById(
+		'register-form'
+	) as HTMLFormElement
+
+	registerForm.addEventListener('submit', async (e: SubmitEvent) => {
 		e.preventDefault()
 		const form = e.target as HTMLFormElement
 
@@ -79,12 +122,19 @@ import Input from '../components/atoms/Input/Input'
 			password_confirm: dataList.get('password_confirm') as string,
 		}
 
+		const validation = await signUpSchema
+			.validate(dataObject, { abortEarly: false })
+			.then((res) => res)
+			.catch((err) => err)
+
+		if (!validation.email) {
+			validation.inner.map((v) => toast.error(v.message))
+			return
+		}
+
 		registerNewUser(dataObject)
 			.then((result) => {
-				const formInputs = form.getElementsByTagName('input')
-				for (const input of formInputs) {
-					input.value = ''
-				}
+				form.reset()
 				toast.success('User registered')
 			})
 			.catch((error: TApiErrors) => {
