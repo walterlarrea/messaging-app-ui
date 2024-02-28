@@ -50,3 +50,16 @@ export const approveFriendRequest = async (targetUserId: number) => {
 		})
 		.catch(manageApiErrors)
 }
+
+export const markFriendRequestAsSeen = async (targetUserId: number) => {
+	const { axiosPrivate } = axiosPrivateRefresh()
+
+	return await axiosPrivate
+		.patch('/api/friends/incoming-requests', {
+			req_user_id: targetUserId,
+		})
+		.then((response: AxiosResponse) => {
+			return response.data
+		})
+		.catch(manageApiErrors)
+}

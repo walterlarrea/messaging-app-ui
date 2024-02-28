@@ -10,7 +10,7 @@ interface ItemProps {
 }
 
 const UserListItem = ({ userName, highlight, children }: ItemProps) => {
-	const classnames = classNames(
+	const containerClasses = classNames(
 		bgColorVariants.card,
 		'flex',
 		'flex-nowrap',
@@ -18,17 +18,20 @@ const UserListItem = ({ userName, highlight, children }: ItemProps) => {
 		'p-2',
 		'cursor-pointer',
 		highlight && 'bg-[--secondary]',
-		'hover:bg-[--secondary]'
+		'hover:bg-[--secondary]',
+		'relative'
 	)
 
+	const infoClasses = classNames('grow', 'flex', 'flex-col', 'overflow-hidden')
+
 	return (
-		<div className={classnames}>
+		<div className={containerClasses}>
 			<img
 				src={blankProfilePicture.src}
 				alt="Generic blank user picture"
 				className="rounded-full w-[48px]"
 			/>
-			<div className="grow flex flex-col overflow-hidden">
+			<div className={infoClasses}>
 				<span className="font-semibold truncate">{userName}</span>
 				<span className="text-[--muted-foreground] truncate"></span>
 			</div>

@@ -9,15 +9,24 @@ import { FaUserPlus } from 'react-icons/fa6'
 import Loader from '../../atoms/Loader/Loader'
 import { useStore } from '@nanostores/react'
 import { $friends, setCurrentChat } from '../../../store/friends'
+import classNames from 'classnames'
 
 const AsideSection = () => {
-	const { allFriends, currentFriendChat } = useStore($friends)
+	const { allFriends, currentFriendChat, unseenRequests } = useStore($friends)
 	const friendDialog = useRef<HTMLDialogElement>(null)
 	const [dialogOpen, setDialogOpen] = useState(false)
 
 	if (!allFriends) {
 		return <Loader />
 	}
+
+	const friendsMenuClasses = classNames(
+		'p-2',
+		unseenRequests >= 1
+			? 'before:content-[attr(data-amount)]'
+			: 'before:content-[]',
+		'before:text-xs before:text-[--primary-foreground] before:absolute before:rounded-full before:bg-[--primary] before:top-[-.25rem] before:left-[-.25rem] before:w-4 before:h-4'
+	)
 
 	const openUserChat = (user: TUserFriend) => {
 		setCurrentChat(user)
@@ -36,14 +45,17 @@ const AsideSection = () => {
 		<aside className="flex flex-col gap-2 overflow-y-auto bg-[--card]">
 			<div className="flex justify-between items-center p-2">
 				<span>Messages</span>
-				<Button
-					size="lg"
-					variant="secondary"
-					classes="p-2"
-					onClick={openFriendDialog}
-				>
-					<FaUserPlus />
-				</Button>
+				<div className="relative">
+					<Button
+						size="lg"
+						variant="secondary"
+						data-amount={unseenRequests}
+						classes={friendsMenuClasses}
+						onClick={openFriendDialog}
+					>
+						<FaUserPlus />
+					</Button>
+				</div>
 			</div>
 
 			<div className="overflow-y-auto">

@@ -1,5 +1,9 @@
 import { atom, onMount } from 'nanostores'
-import type { TUserFriend, TUserFriendDictionary } from '../types/users'
+import type {
+	TUserFriend,
+	TUserFriendDictionary,
+	TUserFriendRequest,
+} from '../types/users'
 import { getFriends, getFriendRequests } from '../services/friendsService'
 import type { TApiErrors } from '../types/error'
 import { getChatWithUser } from '../services/messageService'
@@ -8,18 +12,26 @@ import type { TUserMessage } from '../types/message'
 interface friendsStore {
 	currentFriendChat: TUserFriend
 	allFriends: TUserFriendDictionary
-	friendRequests: TUserFriend[]
+	friendRequests: TUserFriendRequest[]
+	unseenRequests: number
 }
 
 export const $friends = atom<friendsStore>({
 	currentFriendChat: null,
 	allFriends: null,
 	friendRequests: null,
+	unseenRequests: 0,
 })
 
 export const setCurrentChat = (user: TUserFriend) => {
 	$friends.set({ ...$friends.get(), currentFriendChat: user })
 	fetchCurrentChat()
+}
+
+export const setFriendRequests = (requests: TUserFriendRequest[]) => {
+	const unseenRequests = requests.filter((req) => req.unseen).length
+
+	$friends.set({ ...$friends.get(), friendRequests: requests, unseenRequests })
 }
 
 const setCurrentChatMessages = (messages: TUserMessage[]) => {
@@ -32,6 +44,22 @@ const setCurrentChatMessages = (messages: TUserMessage[]) => {
 	})
 
 	$friends.set({ ...$friends.get(), allFriends: allFriendsUpdated })
+}
+
+export function changeSeenFriendRequest(requestUserIdFrom) {
+	const { friendRequests } = $friends.get()
+	const newFriendRequests = friendRequests.map((req) =>
+		req.id !== requestUserIdFrom ? req : { ...req, unseen: false }
+	)
+	setFriendRequests(newFriendRequests)
+}
+
+export function addOneFriendRequest(request) {
+	const oldState = $friends.get()
+	const friendRequests = [...oldState.friendRequests]
+	friendRequests.unshift(request)
+
+	setFriendRequests(friendRequests)
 }
 
 const fetchCurrentChat = () => {
@@ -69,8 +97,8 @@ const fetchFriends = () => {
 
 const fetchFriendRequests = () => {
 	getFriendRequests()
-		.then((result: TUserFriend[]) => {
-			$friends.set({ ...$friends.get(), friendRequests: result })
+		.then((result: TUserFriendRequest[]) => {
+			setFriendRequests(result)
 		})
 		.catch((reasons) => {
 			reasons?.errors?.[0]
@@ -83,3 +111,8 @@ onMount($friends, () => {
 	fetchFriends()
 	fetchFriendRequests()
 })
+
+export function approvedFriendRequest() {
+	fetchFriends()
+	fetchFriendRequests()
+}
