@@ -1,20 +1,28 @@
-.backdrop {
-	position: absolute;
-	top: 0;
-	left: 0;
+.loader::before {
+	content: '';
+	position: fixed;
+	display: block;
 	height: 100svh;
 	width: 100svw;
+	top: 0;
+	left: 0;
+
 	background-color: transparent;
 	backdrop-filter: blur(2px);
 	transition: all ease 0.7s;
 }
 
 .loader {
-	position: absolute;
-	top: calc(50% - 5vh);
-	left: calc(50% - 5vh);
+	position: fixed;
 	height: 10vh;
 	width: 10vh;
+
+	overflow: show;
+	margin: auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 }
 
 .loader .child {
