@@ -1,7 +1,13 @@
-import { useState, type FormEvent } from 'react'
-import Input from '../../atoms/Input/Input'
+import {
+	useRef,
+	useState,
+	type ChangeEvent,
+	type FormEvent,
+	type KeyboardEvent,
+} from 'react'
 import Button from '../../atoms/Button/Button'
 import { HiPaperAirplane } from 'react-icons/hi2'
+import Textarea from '../../atoms/Textarea/Textarea'
 
 interface MessageProps {
 	submitNewMessage: (messageContent: string) => Promise<boolean>
@@ -9,6 +15,7 @@ interface MessageProps {
 
 const MessageForm = ({ submitNewMessage }: MessageProps) => {
 	const [msgContent, setMsgContent] = useState('')
+	const messageForm = useRef(null)
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -17,25 +24,43 @@ const MessageForm = ({ submitNewMessage }: MessageProps) => {
 		submitNewMessage(msgContent).then(() => setMsgContent(''))
 	}
 
+	const handleSubmitEnterKey = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault()
+			messageForm.current &&
+				messageForm.current.dispatchEvent(
+					new Event('submit', { bubbles: true, cancelable: true })
+				)
+		}
+	}
+
+	const handleMsgInputSize = (e: ChangeEvent<HTMLTextAreaElement>) => {
+		const input = e.target
+		setMsgContent(input.value)
+
+		input.rows = input.value !== '' ? Math.floor(input.scrollHeight / 34) : 1
+	}
+
 	return (
 		<form
 			autoComplete="off"
+			ref={messageForm}
 			onSubmit={handleSubmit}
-			className="flex justify-between items-center gap-2"
+			className="flex justify-between gap-2"
 		>
-			<Input
-				type="text"
-				boxSize="lg"
+			<Textarea
 				id="message-text"
 				name="message"
-				placeholder=" Message"
+				boxSize="lg"
+				placeholder="Message"
 				value={msgContent}
-				onChange={(e) => setMsgContent(e.target.value)}
+				onChange={handleMsgInputSize}
+				onKeyDown={handleSubmitEnterKey}
 			/>
 			<Button
 				type="submit"
 				size="lg"
-				classes="h-full text-5xl"
+				classes="text-5xl"
 				disabled={msgContent.length <= 0}
 			>
 				<HiPaperAirplane />
