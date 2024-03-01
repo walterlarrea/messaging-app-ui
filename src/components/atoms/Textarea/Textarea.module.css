@@ -1,0 +1,16 @@
+textarea {
+	transition: box-shadow 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+	/* border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1); */
+	resize: none;
+	max-height: 7rem;
+}
+
+[data-size='sm'] {
+	font-size: 0.8rem;
+}
+[data-size='md'] {
+	font-size: 1rem;
+}
+[data-size='lg'] {
+	font-size: 1.4rem;
+}
