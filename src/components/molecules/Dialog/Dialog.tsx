@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import styles from './Dialog.module.css'
 import {
 	forwardRef,
 	type DialogHTMLAttributes,
@@ -17,13 +18,7 @@ interface DialogProps extends DialogHTMLAttributes<HTMLDialogElement> {
 
 const Dialog = forwardRef<HTMLDialogElement, DialogProps>(
 	({ title, classes, children, handleClose, ...rest }: DialogProps, ref) => {
-		const classnames = classNames(
-			bgColorVariants.card,
-			'border-[--border]',
-			'backdrop-blur',
-			'backdrop-opacity-50',
-			classes
-		)
+		const classnames = classNames(bgColorVariants.card, classes, styles.dialog)
 
 		const handleDialogClose = () => {
 			handleClose()
@@ -39,7 +34,7 @@ const Dialog = forwardRef<HTMLDialogElement, DialogProps>(
 			<dialog
 				ref={ref}
 				onClick={handleBackdropClick}
-				className={` border-2 border-gray-300 rounded-[20px] backdrop-blur backdrop-opacity-50 ${classnames}`}
+				className={`border-2 border-[--border] rounded-[20px] ${classnames}`}
 				{...rest}
 			>
 				<div className="p-[15px]">
